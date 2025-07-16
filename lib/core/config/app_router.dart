@@ -5,14 +5,23 @@ import 'package:smart_interview/presentation/billing/view/billing_screen.dart';
 import 'package:smart_interview/presentation/common_widgets/scaffold_with_nav_bar.dart';
 import 'package:smart_interview/presentation/dashboard/view/dashboard_screen.dart';
 import 'package:smart_interview/presentation/history/view/history_screen.dart';
-import 'package:smart_interview/presentation/interview/view/feedback_screen.dart';
 import 'package:smart_interview/presentation/interview/view/interview_screen.dart';
 import 'package:smart_interview/presentation/settings/view/settings_screen.dart';
+import 'package:smart_interview/presentation/splash/view/splash_screen.dart';
+import 'package:smart_interview/presentation/welcome/view/welcome_screen.dart';
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: '/login',
+  initialLocation: '/splash',
   navigatorKey: _rootNavigatorKey,
   routes: <RouteBase>[
+    GoRoute(
+      path: '/splash',
+      builder: (context, state) => const SplashScreen(),
+    ),
+    GoRoute(
+      path: '/welcome',
+      builder: (context, state) => const WelcomeScreen(),
+    ),
     GoRoute(
       path: '/login',
       builder: (context, state) => const LoginScreen(),
@@ -26,6 +35,16 @@ final GoRouter appRouter = GoRouter(
         GoRoute(
           path: '/dashboard',
           builder: (context, state) => const DashboardScreen(),
+          routes: [
+            GoRoute(
+              path: 'interview',
+              builder: (context, state) => const InterviewScreen(),
+            ),
+            GoRoute(
+              path: 'history',
+              builder: (context, state) => const HistoryScreen(),
+            ),
+          ],
         ),
         GoRoute(
           path: '/history',
@@ -34,23 +53,14 @@ final GoRouter appRouter = GoRouter(
         GoRoute(
           path: '/settings',
           builder: (context, state) => const SettingsScreen(),
+          routes: [
+            GoRoute(
+              path: '/billing',
+              builder: (context, state) => const BillingScreen(),
+            ),
+          ],
         ),
       ],
-    ),
-    GoRoute(
-      path: '/interview',
-      parentNavigatorKey: _rootNavigatorKey,
-      builder: (context, state) => const InterviewScreen(),
-    ),
-    GoRoute(
-      path: '/feedback',
-      parentNavigatorKey: _rootNavigatorKey,
-      builder: (context, state) => const FeedbackScreen(),
-    ),
-    GoRoute(
-      path: '/billing',
-      parentNavigatorKey: _rootNavigatorKey,
-      builder: (context, state) => const BillingScreen(),
     ),
   ],
 );
