@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:smart_interview/core/di/injectable.dart';
 import 'package:smart_interview/data/datasources/google_remote_data_source.dart';
+import 'package:smart_interview/domain/repositories/auth_repository.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -85,10 +86,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             icon: const Icon(Icons.apple, color: Colors.white),
                             backgroundColor: Colors.black,
                             foregroundColor: Colors.white,
-                            onPressed: () {
+                            onPressed: () async {
                               // TODO: Implement real Apple Sign In
                               // context.go('/dashboard');
-                              getIt<GoogleAuthRemoteDataSource>().signIn();
+                              final authRepository = getIt<AuthRepository>();
+                              await authRepository.login();
                             },
                           )
                         else

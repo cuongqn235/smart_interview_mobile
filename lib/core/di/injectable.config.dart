@@ -10,7 +10,6 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:dio/dio.dart' as _i361;
-import 'package:firebase_auth/firebase_auth.dart' as _i59;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:google_sign_in/google_sign_in.dart' as _i116;
 import 'package:injectable/injectable.dart' as _i526;
@@ -33,19 +32,21 @@ extension GetItInjectableX on _i174.GetIt {
       environmentFilter,
     );
     final appModule = _$AppModule();
-    gh.lazySingleton<_i59.FirebaseAuth>(() => appModule.firebaseAuth);
-    gh.lazySingleton<_i116.GoogleSignIn>(() => appModule.googleSignIn);
-    gh.lazySingleton<_i361.Dio>(() => appModule.dio());
-    gh.factory<_i716.AuthRemoteDataSource>(() => _i716.AuthRemoteDataSource(
-          gh<_i361.Dio>(),
-          baseUrl: gh<String>(),
-        ));
-    gh.lazySingleton<_i1073.AuthRepository>(
-        () => _i895.AuthRepositoryImpl(gh<_i716.AuthRemoteDataSource>()));
-    gh.singleton<_i1011.GoogleAuthRemoteDataSource>(
-        () => _i1011.GoogleAuthRemoteDataSourceImpl(
-              gh<_i116.GoogleSignIn>(),
-              gh<_i59.FirebaseAuth>(),
+    gh.factory<String>(() => appModule.baseUrl);
+    gh.factoryAsync<_i116.GoogleSignIn>(() => appModule.googleSignIn);
+    gh.singleton<_i361.Dio>(() => appModule.dio());
+    gh.lazySingleton<_i716.AuthRemoteDataSource>(
+        () => _i716.AuthRemoteDataSource(
+              gh<_i361.Dio>(),
+              baseUrl: gh<String>(),
+            ));
+    gh.singletonAsync<_i1011.GoogleAuthRemoteDataSource>(() async =>
+        _i1011.GoogleAuthRemoteDataSourceImpl(
+            await getAsync<_i116.GoogleSignIn>()));
+    gh.singletonAsync<_i1073.AuthRepository>(
+        () async => _i895.AuthRepositoryImpl(
+              await getAsync<_i1011.GoogleAuthRemoteDataSource>(),
+              gh<_i716.AuthRemoteDataSource>(),
             ));
     return this;
   }

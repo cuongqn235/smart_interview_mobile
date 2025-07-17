@@ -4,8 +4,11 @@ import 'package:smart_interview/core/config/app_router.dart';
 import 'package:smart_interview/core/config/app_theme.dart';
 import 'package:smart_interview/firebase_options.dart';
 
+import 'core/di/injectable.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  configureDependencies();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
