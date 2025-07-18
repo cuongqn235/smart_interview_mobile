@@ -6,18 +6,18 @@ import 'package:smart_interview/data/models/user_login_response.dart';
 
 part 'auth_remote_data_source.g.dart';
 
-@RestApi(baseUrl: '/auth')
+@RestApi()
 @lazySingleton
 abstract class AuthRemoteDataSource {
   @factoryMethod
   factory AuthRemoteDataSource(Dio dio, {String? baseUrl}) =
       _AuthRemoteDataSource;
 
-  @POST('/login')
+  @POST('/auth/login')
   Future<BaseResponse<UserLoginResponse>> login(
       @Body() Map<String, dynamic> body);
 
-  @POST('/register')
+  @POST('/auth/register')
   Future<BaseResponse<UserLoginResponse>> register(
       @Body() Map<String, dynamic> body);
 }

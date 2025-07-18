@@ -1,5 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:smart_interview/domain/entities/user_info_entity.dart';
+import 'package:smart_interview/presentation/auth/bloc/auth_bloc.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -16,34 +20,41 @@ class DashboardScreen extends StatelessWidget {
           ),
         ),
         child: SafeArea(
-          child: ListView(
-            padding: const EdgeInsets.all(16.0),
-            children: [
-              _buildHeader(context, 'Vu'),
-              const SizedBox(height: 24),
-              _buildStartInterviewCard(context),
-              const SizedBox(height: 24),
-              _buildSectionTitle(context, 'Hoặc chọn lĩnh vực phổ biến'),
-              const SizedBox(height: 16),
-              _buildSuggestedTopics(),
-              const SizedBox(height: 24),
-              _buildSectionTitle(context, 'Tiến trình của bạn'),
-              const SizedBox(height: 16),
-              _buildProgressCard(context),
-            ],
+          child: BlocSelector<AuthBloc, AuthState, UserInfoEntity>(
+            selector: (state) {
+              return state.userInfo;
+            },
+            builder: (context, userInfo) {
+              return ListView(
+                padding: const EdgeInsets.all(16.0),
+                children: [
+                  _buildHeader(context, userInfo.name, userInfo.avatar ?? ''),
+                  const SizedBox(height: 24),
+                  _buildStartInterviewCard(context),
+                  const SizedBox(height: 24),
+                  _buildSectionTitle(context, 'Hoặc chọn lĩnh vực phổ biến'),
+                  const SizedBox(height: 16),
+                  _buildSuggestedTopics(),
+                  const SizedBox(height: 24),
+                  _buildSectionTitle(context, 'Tiến trình của bạn'),
+                  const SizedBox(height: 16),
+                  _buildProgressCard(context),
+                ],
+              );
+            },
           ),
         ),
       ),
     );
   }
 
-  Widget _buildHeader(BuildContext context, String name) {
+  Widget _buildHeader(BuildContext context, String name, String image) {
     final textTheme = Theme.of(context).textTheme;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          'Xin chào, $name!',
+          'Xin chào,\n$name!',
           style: textTheme.headlineSmall?.copyWith(
             fontWeight: FontWeight.bold,
             color: Colors.white,
@@ -56,10 +67,15 @@ class DashboardScreen extends StatelessWidget {
             ],
           ),
         ),
-        const CircleAvatar(
-          radius: 28,
-          backgroundColor: Colors.white,
-          child: Icon(Icons.person, color: Color(0xFF6D5FFF), size: 32),
+        CachedNetworkImage(
+          imageUrl: image,
+          imageBuilder: (context, imageProvider) => CircleAvatar(
+            backgroundImage: imageProvider,
+          ),
+          placeholder: (context, url) =>
+              const Icon(Icons.person, color: Color(0xFF6D5FFF), size: 32),
+          errorWidget: (context, url, error) =>
+              const Icon(Icons.person, color: Color(0xFF6D5FFF), size: 32),
         ),
       ],
     );

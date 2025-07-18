@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_interview/core/config/app_router.dart';
 import 'package:smart_interview/core/config/app_theme.dart';
 import 'package:smart_interview/firebase_options.dart';
+import 'package:smart_interview/presentation/auth/bloc/auth_bloc.dart';
 
 import 'core/di/injectable.dart';
 
@@ -20,14 +22,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: MaterialApp.router(
-        title: 'AI Interview Coach',
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.lightTheme,
-        darkTheme: AppTheme.darkTheme,
-        routerConfig: appRouter,
+    return BlocProvider(
+      create: (context) => getIt<AuthBloc>(),
+      child: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: MaterialApp.router(
+          title: 'AI Interview Coach',
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          routerConfig: appRouter,
+        ),
       ),
     );
   }

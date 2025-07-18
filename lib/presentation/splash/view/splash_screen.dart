@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_interview/core/config/app_router.dart';
+import 'package:smart_interview/presentation/auth/bloc/auth_bloc.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -25,66 +27,78 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        height: MediaQuery.sizeOf(context).height,
-        width: MediaQuery.sizeOf(context).width,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color(0xFF312E81), // indigo-900
-              Color(0xFF581C87), // purple-900
-              Color(0xFF9F1239), // pink-800
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state.isLoaded) {
+          state.map(
+            authenticated: (state) => appRouter.go('/dashboard'),
+            onboarding: (state) => appRouter.go('/welcome'),
+            login: (state) => appRouter.go('/login'),
+            initial: (state) {},
+          );
+        }
+      },
+      child: Scaffold(
+        body: Container(
+          height: MediaQuery.sizeOf(context).height,
+          width: MediaQuery.sizeOf(context).width,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color(0xFF312E81), // indigo-900
+                Color(0xFF581C87), // purple-900
+                Color(0xFF9F1239), // pink-800
+              ],
+            ),
+          ),
+          child: Stack(
+            clipBehavior: Clip.none,
+            alignment: Alignment.center,
+            children: [
+              // Animated Background Elements
+              _buildBackgroundElements(),
+
+              // Main Content
+              AnimatedBuilder(
+                animation: _fadeAnimation,
+                builder: (context, child) {
+                  return Opacity(
+                    opacity: _fadeAnimation.value,
+                    child: Transform.translate(
+                      offset: Offset(0, 20 * (1 - _fadeAnimation.value)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // Logo Container
+                          _buildLogoContainer(),
+
+                          const SizedBox(height: 32),
+
+                          // App Name
+                          _buildAppName(),
+
+                          const SizedBox(height: 24),
+
+                          // Feature Highlights
+                          _buildFeatureHighlights(),
+
+                          const SizedBox(height: 32),
+
+                          // Loading Animation
+                          _buildLoadingAnimation(),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+
+              // Bottom Stats
+              _buildBottomStats(),
             ],
           ),
-        ),
-        child: Stack(
-          clipBehavior: Clip.none,
-          alignment: Alignment.center,
-          children: [
-            // Animated Background Elements
-            _buildBackgroundElements(),
-
-            // Main Content
-            AnimatedBuilder(
-              animation: _fadeAnimation,
-              builder: (context, child) {
-                return Opacity(
-                  opacity: _fadeAnimation.value,
-                  child: Transform.translate(
-                    offset: Offset(0, 20 * (1 - _fadeAnimation.value)),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // Logo Container
-                        _buildLogoContainer(),
-
-                        const SizedBox(height: 32),
-
-                        // App Name
-                        _buildAppName(),
-
-                        const SizedBox(height: 24),
-
-                        // Feature Highlights
-                        _buildFeatureHighlights(),
-
-                        const SizedBox(height: 32),
-
-                        // Loading Animation
-                        _buildLoadingAnimation(),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-
-            // Bottom Stats
-            _buildBottomStats(),
-          ],
         ),
       ),
     );
@@ -141,8 +155,10 @@ class _SplashScreenState extends State<SplashScreen>
       CurvedAnimation(parent: _rotationController, curve: Curves.linear),
     );
 
-    // Start animation sequence
-    _startAnimationSequence();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<AuthBloc>().add(const AuthEvent.started());
+      _startAnimationSequence(context);
+    });
   }
 
   Widget _buildAppName() {
@@ -578,7 +594,7 @@ class _SplashScreenState extends State<SplashScreen>
     );
   }
 
-  void _startAnimationSequence() async {
+  void _startAnimationSequence(BuildContext context) async {
     await Future.delayed(const Duration(milliseconds: 200));
     _fadeController.forward();
 
@@ -590,6 +606,8 @@ class _SplashScreenState extends State<SplashScreen>
 
     // Complete after 2.5 seconds
     await Future.delayed(const Duration(milliseconds: 1500));
-    appRouter.go('/welcome');
+    if (context.mounted) {
+      context.read<AuthBloc>().add(const AuthEvent.appLoaded());
+    }
   }
 }

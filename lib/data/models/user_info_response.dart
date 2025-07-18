@@ -7,7 +7,7 @@ class UserInfoResponse {
   final int id;
   final String email;
   final String name;
-  final String avatar;
+  final String? avatar;
   final String platform;
   final String subscription;
   final DateTime createdAt;
@@ -15,7 +15,7 @@ class UserInfoResponse {
     required this.id,
     required this.email,
     required this.name,
-    required this.avatar,
+    this.avatar,
     required this.platform,
     required this.subscription,
     required this.createdAt,

@@ -8,7 +8,7 @@ sealed class UserInfoEntity with _$UserInfoEntity {
     required int id,
     required String email,
     required String name,
-    required String avatar,
+    String? avatar,
     required String platform,
     required String subscription,
     required DateTime createdAt,

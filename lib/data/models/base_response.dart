@@ -27,8 +27,8 @@ sealed class BaseResponse<T> with _$BaseResponse<T> {
 }
 
 extension BaseResponseExtension<T> on BaseResponse<T> {
-  dynamic onResult(
-    dynamic Function(T data) onSuccess, {
+  R onResult<R>(
+    R Function(T data) onSuccess, {
     Exception Function(dynamic error)? onError,
   }) {
     if (status) {

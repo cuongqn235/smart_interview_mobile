@@ -17,7 +17,7 @@ mixin _$UserInfoEntity {
   int get id;
   String get email;
   String get name;
-  String get avatar;
+  String? get avatar;
   String get platform;
   String get subscription;
   DateTime get createdAt;
@@ -67,7 +67,7 @@ abstract mixin class $UserInfoEntityCopyWith<$Res> {
       {int id,
       String email,
       String name,
-      String avatar,
+      String? avatar,
       String platform,
       String subscription,
       DateTime createdAt});
@@ -89,7 +89,7 @@ class _$UserInfoEntityCopyWithImpl<$Res>
     Object? id = null,
     Object? email = null,
     Object? name = null,
-    Object? avatar = null,
+    Object? avatar = freezed,
     Object? platform = null,
     Object? subscription = null,
     Object? createdAt = null,
@@ -107,10 +107,10 @@ class _$UserInfoEntityCopyWithImpl<$Res>
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      avatar: null == avatar
+      avatar: freezed == avatar
           ? _self.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       platform: null == platform
           ? _self.platform
           : platform // ignore: cast_nullable_to_non_nullable
@@ -218,7 +218,7 @@ extension UserInfoEntityPatterns on UserInfoEntity {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(int id, String email, String name, String avatar,
+    TResult Function(int id, String email, String name, String? avatar,
             String platform, String subscription, DateTime createdAt)?
         $default, {
     required TResult orElse(),
@@ -248,7 +248,7 @@ extension UserInfoEntityPatterns on UserInfoEntity {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(int id, String email, String name, String avatar,
+    TResult Function(int id, String email, String name, String? avatar,
             String platform, String subscription, DateTime createdAt)
         $default,
   ) {
@@ -274,7 +274,7 @@ extension UserInfoEntityPatterns on UserInfoEntity {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(int id, String email, String name, String avatar,
+    TResult? Function(int id, String email, String name, String? avatar,
             String platform, String subscription, DateTime createdAt)?
         $default,
   ) {
@@ -296,7 +296,7 @@ class _UserInfoEntity implements UserInfoEntity {
       {required this.id,
       required this.email,
       required this.name,
-      required this.avatar,
+      this.avatar,
       required this.platform,
       required this.subscription,
       required this.createdAt});
@@ -308,7 +308,7 @@ class _UserInfoEntity implements UserInfoEntity {
   @override
   final String name;
   @override
-  final String avatar;
+  final String? avatar;
   @override
   final String platform;
   @override
@@ -363,7 +363,7 @@ abstract mixin class _$UserInfoEntityCopyWith<$Res>
       {int id,
       String email,
       String name,
-      String avatar,
+      String? avatar,
       String platform,
       String subscription,
       DateTime createdAt});
@@ -385,7 +385,7 @@ class __$UserInfoEntityCopyWithImpl<$Res>
     Object? id = null,
     Object? email = null,
     Object? name = null,
-    Object? avatar = null,
+    Object? avatar = freezed,
     Object? platform = null,
     Object? subscription = null,
     Object? createdAt = null,
@@ -403,10 +403,10 @@ class __$UserInfoEntityCopyWithImpl<$Res>
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      avatar: null == avatar
+      avatar: freezed == avatar
           ? _self.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       platform: null == platform
           ? _self.platform
           : platform // ignore: cast_nullable_to_non_nullable

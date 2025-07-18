@@ -1,7 +1,9 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_interview/core/config/app_router.dart';
+import 'package:smart_interview/presentation/auth/bloc/auth_bloc.dart';
 
 class FeatureItem {
   final String text;
@@ -125,44 +127,55 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   Widget build(BuildContext context) {
     final step = steps[currentStep];
 
-    return Scaffold(
-      body: AnimatedContainer(
-        duration: const Duration(milliseconds: 500),
-        decoration: BoxDecoration(gradient: step.bgGradient),
-        child: Stack(
-          children: [
-            // Animated Background Elements
-            _buildBackgroundElements(),
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        state.map(
+          login: (state) => appRouter.go('/login'),
+          onboarding: (state) => appRouter.go('/welcome'),
+          authenticated: (state) => appRouter.go('/dashboard'),
+          initial: (state) => appRouter.go('/welcome'),
+        );
+      },
+      child: Scaffold(
+        body: AnimatedContainer(
+          duration: const Duration(milliseconds: 500),
+          decoration: BoxDecoration(gradient: step.bgGradient),
+          child: Stack(
+            children: [
+              // Animated Background Elements
+              _buildBackgroundElements(),
 
-            // Main Content
-            SafeArea(
-              child: Column(
-                children: [
-                  // Header with Progress
-                  _buildHeader(),
-                  const SizedBox(height: 16),
-                  // Main Content
-                  Expanded(
-                    child: AnimatedBuilder(
-                      animation: _slideAnimation,
-                      builder: (context, child) {
-                        return Opacity(
-                          opacity: _slideAnimation.value,
-                          child: Transform.translate(
-                            offset: Offset(0, 50 * (1 - _slideAnimation.value)),
-                            child: _buildStepContent(step),
-                          ),
-                        );
-                      },
+              // Main Content
+              SafeArea(
+                child: Column(
+                  children: [
+                    // Header with Progress
+                    _buildHeader(),
+                    const SizedBox(height: 16),
+                    // Main Content
+                    Expanded(
+                      child: AnimatedBuilder(
+                        animation: _slideAnimation,
+                        builder: (context, child) {
+                          return Opacity(
+                            opacity: _slideAnimation.value,
+                            child: Transform.translate(
+                              offset:
+                                  Offset(0, 50 * (1 - _slideAnimation.value)),
+                              child: _buildStepContent(step),
+                            ),
+                          );
+                        },
+                      ),
                     ),
-                  ),
 
-                  // Navigation
-                  _buildNavigation(),
-                ],
+                    // Navigation
+                    _buildNavigation(),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -367,7 +380,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           // Skip Button
           TextButton(
             onPressed: () {
-              appRouter.go('/login');
+              context.read<AuthBloc>().add(const AuthEvent.setFirstLaunch());
             },
             child: const Text(
               'Bỏ qua',
@@ -452,7 +465,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
           // Next Button
           ElevatedButton.icon(
-            onPressed: _nextStep,
+            onPressed: () => _nextStep(context),
             icon: const Icon(Icons.chevron_right),
             label: Text(
                 currentStep == steps.length - 1 ? 'Bắt Đầu Ngay' : 'Tiếp Theo'),
@@ -605,7 +618,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     }
   }
 
-  void _nextStep() {
+  void _nextStep(BuildContext context) {
     if (currentStep < steps.length - 1) {
       _slideController.reverse().then((_) {
         setState(() {
@@ -614,7 +627,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
         _slideController.forward();
       });
     } else {
-      appRouter.go('/login');
+      context.read<AuthBloc>().add(const AuthEvent.setFirstLaunch());
     }
   }
 
