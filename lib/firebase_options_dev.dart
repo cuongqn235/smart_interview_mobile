@@ -15,31 +15,6 @@ import 'package:flutter/foundation.dart'
 /// );
 /// ```
 class DefaultFirebaseOptions {
-  static FirebaseOptions get currentPlatform {
-    if (kIsWeb) {
-      return web;
-    }
-    switch (defaultTargetPlatform) {
-      case TargetPlatform.android:
-        return android;
-      case TargetPlatform.iOS:
-        return ios;
-      case TargetPlatform.macOS:
-        return macos;
-      case TargetPlatform.windows:
-        return windows;
-      case TargetPlatform.linux:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for linux - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
-      default:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions are not supported for this platform.',
-        );
-    }
-  }
-
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyC5PqM_bJYDeQuL9uXR0Jgmx9-0Reo5mI8',
     appId: '1:140625559832:web:cdb793601b75c759035e6d',
@@ -64,7 +39,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '140625559832',
     projectId: 'smart-interview-dev',
     storageBucket: 'smart-interview-dev.firebasestorage.app',
-    iosClientId: '140625559832-0m0u0t12muaks5in2tbk2dmjq2k2vtj7.apps.googleusercontent.com',
+    iosClientId:
+        '140625559832-0m0u0t12muaks5in2tbk2dmjq2k2vtj7.apps.googleusercontent.com',
     iosBundleId: 'com.ntc.smartInterview.dev',
   );
 
@@ -74,7 +50,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '140625559832',
     projectId: 'smart-interview-dev',
     storageBucket: 'smart-interview-dev.firebasestorage.app',
-    iosClientId: '140625559832-hn7gn1rnvr2sh128md6rrejd39oet04h.apps.googleusercontent.com',
+    iosClientId:
+        '140625559832-hn7gn1rnvr2sh128md6rrejd39oet04h.apps.googleusercontent.com',
     iosBundleId: 'com.example.smartInterview',
   );
 
@@ -87,4 +64,29 @@ class DefaultFirebaseOptions {
     storageBucket: 'smart-interview-dev.firebasestorage.app',
     measurementId: 'G-QPD94XPHS0',
   );
+
+  static FirebaseOptions get currentPlatform {
+    if (kIsWeb) {
+      return web;
+    }
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.android:
+        return android;
+      case TargetPlatform.iOS:
+        return ios;
+      case TargetPlatform.macOS:
+        return macos;
+      case TargetPlatform.windows:
+        return windows;
+      case TargetPlatform.linux:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for linux - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
+      default:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions are not supported for this platform.',
+        );
+    }
+  }
 }

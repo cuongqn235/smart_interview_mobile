@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
@@ -7,7 +8,7 @@ import 'package:smart_interview/core/interceptors/auth_interceptors.dart';
 
 @module
 abstract class AppModule {
-  String get baseUrl => 'https://8242ce66a784.ngrok-free.app';
+  String get baseUrl => dotenv.env['BASE_URL'] ?? '';
   @singleton
   FlutterSecureStorage get flutterSecureStorage => const FlutterSecureStorage();
 
@@ -29,11 +30,13 @@ abstract class AppModule {
         ),
       )
         ..interceptors.add(AuthInterceptors(flutterSecureStorage))
-        ..interceptors.add(LogInterceptor(
-          request: true,
-          responseBody: true,
-          requestBody: true,
-          requestHeader: true,
-          responseHeader: false,
-        ));
+        ..interceptors.add(
+          LogInterceptor(
+            request: true,
+            responseBody: true,
+            requestBody: true,
+            requestHeader: true,
+            responseHeader: false,
+          ),
+        );
 }

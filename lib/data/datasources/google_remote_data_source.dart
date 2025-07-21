@@ -1,8 +1,12 @@
+import 'dart:io';
+
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class GoogleAuthRemoteDataSource {
   Future<GoogleSignInAccount?> signIn();
+  Future<bool> signInWithServerClientId();
   Future<void> signOut();
 }
 
@@ -20,6 +24,18 @@ class GoogleAuthRemoteDataSourceImpl implements GoogleAuthRemoteDataSource {
     } catch (e) {
       return null;
     }
+  }
+
+  @override
+  Future<bool> signInWithServerClientId() async {
+    final isIos = Platform.isIOS;
+    if (isIos) {
+      return true;
+    }
+    await _google.initialize(
+      serverClientId: dotenv.env['SERVER_CLIENT_ID'] ?? '',
+    );
+    return true;
   }
 
   @override

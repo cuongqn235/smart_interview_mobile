@@ -2,22 +2,18 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CLIENT_ID</key>
-	<string>140625559832-0m0u0t12muaks5in2tbk2dmjq2k2vtj7.apps.googleusercontent.com</string>
-	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.140625559832-0m0u0t12muaks5in2tbk2dmjq2k2vtj7</string>
 	<key>API_KEY</key>
-	<string>AIzaSyArV-kapY9Zd27cS5fYfjH3_zUl-uappP4</string>
+	<string>AIzaSyCJkMughZWBCZ6jkV7hMPjnkyJNR9vAF5M</string>
 	<key>GCM_SENDER_ID</key>
-	<string>140625559832</string>
+	<string>531765551090</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.ntc.smartInterview.dev</string>
+	<string>com.ntc.smartInterview</string>
 	<key>PROJECT_ID</key>
-	<string>smart-interview-dev</string>
+	<string>smart-interview-6b5c1</string>
 	<key>STORAGE_BUCKET</key>
-	<string>smart-interview-dev.firebasestorage.app</string>
+	<string>smart-interview-6b5c1.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:140625559832:ios:ebdf9cc4998c07eb035e6d</string>
+	<string>1:531765551090:ios:d533290c61751d6d82556b</string>
 </dict>
 </plist>

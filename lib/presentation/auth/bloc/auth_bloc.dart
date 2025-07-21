@@ -19,6 +19,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       : super(const _InitialState()) {
     on<_StartedEvent>((event, emit) async {
       try {
+        final isInitialized = await _authRepo.init();
+        if (!isInitialized) {
+          emit(AuthState.login(isLoaded: state.isLoaded));
+          return;
+        }
         final isFirstLaunch = await _appRepo.isFirstLaunch();
         if (isFirstLaunch) {
           emit(AuthState.onboarding(isLoaded: state.isLoaded));

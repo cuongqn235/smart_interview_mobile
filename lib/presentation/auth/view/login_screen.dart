@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_interview/core/config/app_router.dart';
-import 'package:smart_interview/core/di/injectable.dart';
-import 'package:smart_interview/data/datasources/google_remote_data_source.dart';
 import 'package:smart_interview/presentation/auth/bloc/auth_bloc.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -112,9 +110,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               backgroundColor: Colors.white,
                               foregroundColor: Colors.black87,
                               onPressed: () {
-                                // TODO: Implement real Google Sign In
-                                // context.go('/dashboard');
-                                getIt<GoogleAuthRemoteDataSource>().signIn();
+                                context
+                                    .read<AuthBloc>()
+                                    .add(const AuthEvent.login());
                               },
                             ),
                           const SizedBox(height: 18),

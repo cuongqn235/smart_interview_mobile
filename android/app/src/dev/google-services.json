@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "140625559832",
+    "project_id": "smart-interview-dev",
+    "storage_bucket": "smart-interview-dev.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:140625559832:android:f0dd2cde190425d5035e6d",
+        "android_client_info": {
+          "package_name": "com.ntc.smartInterview.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "140625559832-253pu470m2h61j156a3429ds7sbnu39v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB97V8nq8oGZQbLDE2MfGpUr9cYs79hk8Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "140625559832-253pu470m2h61j156a3429ds7sbnu39v.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "140625559832-0m0u0t12muaks5in2tbk2dmjq2k2vtj7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ntc.smartInterview.dev"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

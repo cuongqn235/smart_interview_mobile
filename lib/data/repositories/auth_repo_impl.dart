@@ -16,6 +16,11 @@ class AuthRepoImpl implements AuthRepo {
       this._appRepo);
 
   @override
+  Future<bool> init() async {
+    return _googleAuthRemoteDataSource.signInWithServerClientId();
+  }
+
+  @override
   Future<UserInfoEntity> login() async {
     final googleUser = await _googleAuthRemoteDataSource.signIn();
     if (googleUser == null) {

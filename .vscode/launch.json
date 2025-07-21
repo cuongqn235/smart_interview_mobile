@@ -8,25 +8,27 @@
       "name": "smart_interview",
       "request": "launch",
       "type": "dart",
-      "args": ["--flavor", "prod", "--target", "lib/main.dart"]
+      "args": ["--flavor", "prod", "--target", "lib/main.dart", "--dart-define=ENV=prod"]
     },
     {
       "name": "smart_interview_dev",
       "request": "launch",
       "type": "dart",
-      "args": ["--flavor", "dev", "--target", "lib/main.dart"]
+      "args": ["--flavor", "dev", "--target", "lib/main.dart", "--dart-define=ENV=dev"]
     },
     {
       "name": "smart_interview (profile mode)",
       "request": "launch",
       "type": "dart",
-      "flutterMode": "profile"
+      "flutterMode": "profile",
+      "args": ["--flavor", "prod", "--target", "lib/main.dart", "--dart-define=ENV=prod"]
     },
     {
       "name": "smart_interview (release mode)",
       "request": "launch",
       "type": "dart",
-      "flutterMode": "release"
+      "flutterMode": "release",
+      "args": ["--flavor", "prod", "--target", "lib/main.dart", "--dart-define=ENV=prod"]
     }
   ]
 }
