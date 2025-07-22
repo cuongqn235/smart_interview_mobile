@@ -1,16 +1,17 @@
+import 'dart:async';
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:glassmorphism/glassmorphism.dart';
-import 'package:smart_interview/domain/entities/message_entity.dart';
-import 'package:smart_interview/presentation/chatting/view/widgets/typing_indicator.dart';
+import 'package:go_router/go_router.dart';
+import 'package:smart_interview/presentation/chatting/view/models/message.dart';
 
 import 'widgets/animated_background.dart';
 import 'widgets/message_bubble.dart';
-import 'widgets/particle_system.dart';
+import 'widgets/typing_indicator.dart';
 
 class ChattingScreen extends StatefulWidget {
-  const ChattingScreen({Key? key}) : super(key: key);
+  const ChattingScreen({super.key});
 
   @override
   State<ChattingScreen> createState() => _ChattingScreenState();
@@ -20,61 +21,223 @@ class _ChattingScreenState extends State<ChattingScreen>
     with TickerProviderStateMixin {
   final TextEditingController _messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
-  final List<MessageEntity> _messages = [];
-
+  final List<Message> _messages = [];
   bool _isTyping = false;
-  bool _isRecording = false;
-  int _clarificationStep = 0;
+  int _currentStep = 0;
 
-  late AnimationController _pulseController;
-  late AnimationController _recordingController;
-  late AnimationController _backgroundController;
+  late AnimationController _headerAnimationController;
+  late AnimationController _inputAnimationController;
+  late Animation<double> _headerAnimation;
+  late Animation<double> _inputAnimation;
 
-  final List<String> _clarificationQuestions = [
-    "What specific role are you applying for? (e.g., Senior Frontend Developer, Product Manager)",
-    "What's your experience level? (Entry-level, Mid-level, Senior, Lead)",
-    "Which company or industry are you targeting?",
-    "What key skills or technologies should we focus on?",
+  final List<String> _aiResponses = [
+    "Tuyệt vời! Bạn có thể chia sẻ thêm về kinh nghiệm của mình không?",
+    "Rất hay! Bạn đã chuẩn bị gì cho cuộc phỏng vấn này chưa?",
+    "Perfect! Tôi sẽ tạo những câu hỏi phỏng vấn phù hợp cho bạn. Bạn đã sẵn sàng chưa? ✨",
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Color(0xFF0F172A), // slate-900
-              Color(0xFF581C87), // purple-900
-              Color(0xFF0F172A), // slate-900
+              Color(0xFF1a1a2e),
+              Color(0xFF16213e),
+              Color(0xFF0f3460),
             ],
           ),
         ),
         child: Stack(
           children: [
-            // Animated Background
-            AnimatedBackground(controller: _backgroundController),
+            // Animated background
+            const AnimatedBackground(),
 
-            // Particle System
-            const ParticleSystem(),
-
-            // Main Content
+            // Main content
             SafeArea(
               child: Column(
                 children: [
                   // Header
-                  _buildHeader(),
-
-                  // Chat Messages
-                  Expanded(
-                    child: _buildMessagesList(),
+                  AnimatedBuilder(
+                    animation: _headerAnimation,
+                    builder: (context, child) {
+                      return Transform.translate(
+                        offset: Offset(0, _headerAnimation.value),
+                        child: Container(
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.purple.withOpacity(0.3),
+                                Colors.blue.withOpacity(0.3),
+                              ],
+                            ),
+                            border: Border(
+                              bottom: BorderSide(
+                                color: Colors.white.withOpacity(0.1),
+                                width: 1,
+                              ),
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              // Animated logo
+                              TweenAnimationBuilder<double>(
+                                tween: Tween(begin: 0.0, end: 1.0),
+                                duration: const Duration(seconds: 2),
+                                builder: (context, value, child) {
+                                  return Transform.rotate(
+                                    angle: value * 2 * math.pi,
+                                    child: Container(
+                                      width: 40,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        gradient: const LinearGradient(
+                                          colors: [Colors.purple, Colors.blue],
+                                        ),
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: const Icon(
+                                        Icons.auto_awesome,
+                                        color: Colors.white,
+                                        size: 20,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                              const SizedBox(width: 12),
+                              const Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'AI Interview Coach',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Chuẩn bị phỏng vấn cùng AI',
+                                      style: TextStyle(
+                                        color: Colors.white70,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
                   ),
 
-                  // Input Area
-                  _buildInputArea(),
+                  // Messages
+                  Expanded(
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      padding: const EdgeInsets.all(16),
+                      itemCount: _messages.length + (_isTyping ? 1 : 0),
+                      itemBuilder: (context, index) {
+                        if (index == _messages.length && _isTyping) {
+                          return const TypingIndicator();
+                        }
+
+                        return MessageBubble(
+                          message: _messages[index],
+                          animationDelay: index * 100,
+                        );
+                      },
+                    ),
+                  ),
+
+                  // Input
+                  AnimatedBuilder(
+                    animation: _inputAnimation,
+                    builder: (context, child) {
+                      return Transform.translate(
+                        offset: Offset(0, _inputAnimation.value),
+                        child: Container(
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.2),
+                            border: Border(
+                              top: BorderSide(
+                                color: Colors.white.withOpacity(0.1),
+                                width: 1,
+                              ),
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.1),
+                                    borderRadius: BorderRadius.circular(25),
+                                    border: Border.all(
+                                      color: Colors.white.withOpacity(0.2),
+                                    ),
+                                  ),
+                                  child: TextField(
+                                    controller: _messageController,
+                                    style: const TextStyle(color: Colors.white),
+                                    decoration: InputDecoration(
+                                      hintText:
+                                          'Nhập vị trí bạn muốn phỏng vấn...',
+                                      hintStyle: TextStyle(
+                                        color: Colors.white.withOpacity(0.5),
+                                      ),
+                                      border: InputBorder.none,
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                        horizontal: 20,
+                                        vertical: 12,
+                                      ),
+                                    ),
+                                    onSubmitted: (_) => _sendMessage(),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              GestureDetector(
+                                onTap: _sendMessage,
+                                child: Container(
+                                  width: 48,
+                                  height: 48,
+                                  decoration: BoxDecoration(
+                                    gradient: const LinearGradient(
+                                      colors: [Colors.purple, Colors.blue],
+                                    ),
+                                    borderRadius: BorderRadius.circular(24),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.purple.withOpacity(0.3),
+                                        blurRadius: 8,
+                                        offset: const Offset(0, 2),
+                                      ),
+                                    ],
+                                  ),
+                                  child: const Icon(
+                                    Icons.send,
+                                    color: Colors.white,
+                                    size: 20,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
@@ -86,9 +249,8 @@ class _ChattingScreenState extends State<ChattingScreen>
 
   @override
   void dispose() {
-    _pulseController.dispose();
-    _recordingController.dispose();
-    _backgroundController.dispose();
+    _headerAnimationController.dispose();
+    _inputAnimationController.dispose();
     _messageController.dispose();
     _scrollController.dispose();
     super.dispose();
@@ -98,321 +260,55 @@ class _ChattingScreenState extends State<ChattingScreen>
   void initState() {
     super.initState();
     _initializeAnimations();
-    _addWelcomeMessage();
+    _addInitialMessage();
   }
 
-  void _addWelcomeMessage() {
+  void _addInitialMessage() {
     setState(() {
-      _messages.add(MessageEntity(
-        id: 'welcome',
-        content:
-            "Hi! I'm your AI Interview Coach. I'll help you prepare for your upcoming interview.\n\nTo get started, could you tell me about the position you're applying for?",
-        isUser: false,
+      _messages.add(Message(
+        id: '1',
+        text:
+            'Chào bạn! Tôi là AI Interview Coach. Hãy cho tôi biết vị trí công việc bạn muốn phỏng vấn nhé! 🚀',
+        sender: MessageSender.ai,
         timestamp: DateTime.now(),
       ));
     });
   }
 
-  Widget _buildHeader() {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      child: GlassmorphicContainer(
-        width: double.infinity,
-        height: 80,
-        borderRadius: 20,
-        blur: 20,
-        alignment: Alignment.center,
-        border: 2,
-        linearGradient: LinearGradient(
-          colors: [
-            Colors.blue.withOpacity(0.1),
-            Colors.purple.withOpacity(0.1),
-          ],
-        ),
-        borderGradient: LinearGradient(
-          colors: [
-            Colors.blue.withOpacity(0.3),
-            Colors.purple.withOpacity(0.3),
-          ],
-        ),
-        child: Row(
-          children: [
-            // AI Avatar
-            Container(
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: const LinearGradient(
-                  colors: [Colors.blue, Colors.purple],
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.blue.withOpacity(0.3),
-                    blurRadius: 10,
-                    spreadRadius: 2,
-                  ),
-                ],
-              ),
-              child: const Icon(
-                Icons.smart_toy,
-                color: Colors.white,
-                size: 24,
-              ),
-            )
-                .animate(onPlay: (controller) => controller.repeat())
-                .rotate(duration: 3.seconds),
-
-            const SizedBox(width: 16),
-
-            // Title and Status
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'AI Interview Coach',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        width: 8,
-                        height: 8,
-                        decoration: const BoxDecoration(
-                          color: Colors.green,
-                          shape: BoxShape.circle,
-                        ),
-                      )
-                          .animate(onPlay: (controller) => controller.repeat())
-                          .scale(
-                              duration: 2.seconds,
-                              begin: const Offset(1, 1),
-                              end: const Offset(1.2, 1.2)),
-                      const SizedBox(width: 8),
-                      const Text(
-                        'Active Session',
-                        style: TextStyle(
-                          color: Colors.white70,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    ).animate().fadeIn(duration: 600.ms).slideY(begin: -0.3);
-  }
-
-  Widget _buildInputArea() {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      child: GlassmorphicContainer(
-        width: double.infinity,
-        height: 80,
-        borderRadius: 25,
-        blur: 20,
-        alignment: Alignment.center,
-        border: 2,
-        linearGradient: LinearGradient(
-          colors: [
-            Colors.blue.withOpacity(0.1),
-            Colors.purple.withOpacity(0.1),
-          ],
-        ),
-        borderGradient: LinearGradient(
-          colors: [
-            Colors.purple.withOpacity(0.3),
-            Colors.blue.withOpacity(0.3),
-          ],
-        ),
-        child: Row(
-          children: [
-            // Text Input
-            Expanded(
-              child: Container(
-                margin: const EdgeInsets.only(left: 16),
-                child: TextField(
-                  controller: _messageController,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: const InputDecoration(
-                    hintText: 'Share your thoughts...',
-                    hintStyle: TextStyle(color: Colors.white60),
-                    border: InputBorder.none,
-                  ),
-                  onSubmitted: (_) => _sendMessage(),
-                ),
-              ),
-            ),
-
-            // Voice Recording Button
-            GestureDetector(
-              onTap: _toggleRecording,
-              child: Container(
-                width: 40,
-                height: 40,
-                margin: const EdgeInsets.only(right: 8),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: _isRecording ? Colors.red : Colors.purple,
-                  boxShadow: [
-                    BoxShadow(
-                      color: (_isRecording ? Colors.red : Colors.purple)
-                          .withOpacity(0.3),
-                      blurRadius: 8,
-                      spreadRadius: 2,
-                    ),
-                  ],
-                ),
-                child: const Icon(
-                  Icons.mic,
-                  color: Colors.white,
-                  size: 20,
-                ),
-              )
-                  .animate(
-                    target: _isRecording ? 1 : 0,
-                  )
-                  .scale(
-                    duration: 200.ms,
-                    begin: const Offset(1, 1),
-                    end: const Offset(1.1, 1.1),
-                  ),
-            ),
-
-            // Send Button
-            GestureDetector(
-              onTap: _sendMessage,
-              child: Container(
-                width: 50,
-                height: 50,
-                margin: const EdgeInsets.only(right: 12),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: const LinearGradient(
-                    colors: [Colors.blue, Colors.purple],
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.blue.withOpacity(0.3),
-                      blurRadius: 10,
-                      spreadRadius: 2,
-                    ),
-                  ],
-                ),
-                child: const Icon(
-                  Icons.send,
-                  color: Colors.white,
-                  size: 20,
-                ),
-              ),
-            )
-                .animate()
-                .scale(
-                  duration: 200.ms,
-                  curve: Curves.easeInOut,
-                )
-                .then()
-                .shimmer(
-                  duration: 2.seconds,
-                  color: Colors.white.withOpacity(0.3),
-                ),
-          ],
-        ),
-      ),
-    ).animate().fadeIn(duration: 600.ms).slideY(begin: 0.3);
-  }
-
-  Widget _buildMessagesList() {
-    return ListView.builder(
-      controller: _scrollController,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      itemCount: _messages.length + (_isTyping ? 1 : 0),
-      itemBuilder: (context, index) {
-        if (index == _messages.length && _isTyping) {
-          return const TypingIndicator()
-              .animate()
-              .fadeIn(duration: 300.ms)
-              .slideY(begin: 0.3);
-        }
-
-        final message = _messages[index];
-        return MessageBubble(
-          message: message,
-          index: index,
-        ).animate(delay: (index * 100).ms).fadeIn(duration: 500.ms).slideX(
-              begin: message.isUser ? 0.3 : -0.3,
-              duration: 400.ms,
-              curve: Curves.easeOutBack,
-            );
-      },
-    );
-  }
-
-  String _generateAIResponse(String userInput) {
-    final lowerInput = userInput.toLowerCase();
-
-    if (_clarificationStep == 0) {
-      if (lowerInput.contains('frontend') ||
-          lowerInput.contains('react') ||
-          lowerInput.contains('javascript')) {
-        _clarificationStep = 1;
-        return "Great! I see you're preparing for a Frontend Developer role. ${_clarificationQuestions[1]}";
-      } else if (lowerInput.contains('backend') ||
-          lowerInput.contains('api') ||
-          lowerInput.contains('server')) {
-        _clarificationStep = 1;
-        return "Excellent! Backend development is a great field. ${_clarificationQuestions[1]}";
-      } else {
-        return "I'd like to learn more about the specific role. ${_clarificationQuestions[0]}";
-      }
-    }
-
-    if (_clarificationStep < _clarificationQuestions.length - 1) {
-      _clarificationStep++;
-      return "Thanks for that information! ${_clarificationQuestions[_clarificationStep]}";
-    }
-
-    if (_clarificationStep == _clarificationQuestions.length - 1) {
-      // Navigate to questions screen after delay
-      Future.delayed(const Duration(seconds: 2), () {
-        Navigator.pushNamed(context, '/questions');
-      });
-
-      return "Perfect! I have all the information I need. Based on your profile, I've prepared a customized set of interview questions. Let me show you what we'll be working on...";
-    }
-
-    return "Thank you for the information. Let me prepare your interview questions...";
-  }
-
   void _initializeAnimations() {
-    _pulseController = AnimationController(
-      duration: const Duration(seconds: 2),
-      vsync: this,
-    )..repeat();
-
-    _recordingController = AnimationController(
+    _headerAnimationController = AnimationController(
       duration: const Duration(milliseconds: 800),
       vsync: this,
     );
-
-    _backgroundController = AnimationController(
-      duration: const Duration(seconds: 20),
+    _inputAnimationController = AnimationController(
+      duration: const Duration(milliseconds: 600),
       vsync: this,
-    )..repeat();
+    );
+
+    _headerAnimation = Tween<double>(
+      begin: -50.0,
+      end: 0.0,
+    ).animate(CurvedAnimation(
+      parent: _headerAnimationController,
+      curve: Curves.elasticOut,
+    ));
+
+    _inputAnimation = Tween<double>(
+      begin: 50.0,
+      end: 0.0,
+    ).animate(CurvedAnimation(
+      parent: _inputAnimationController,
+      curve: Curves.elasticOut,
+    ));
+
+    _headerAnimationController.forward();
+    Future.delayed(const Duration(milliseconds: 200), () {
+      _inputAnimationController.forward();
+    });
   }
 
   void _scrollToBottom() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    Future.delayed(const Duration(milliseconds: 100), () {
       if (_scrollController.hasClients) {
         _scrollController.animateTo(
           _scrollController.position.maxScrollExtent,
@@ -423,13 +319,13 @@ class _ChattingScreenState extends State<ChattingScreen>
     });
   }
 
-  void _sendMessage() async {
+  void _sendMessage() {
     if (_messageController.text.trim().isEmpty) return;
 
-    final userMessage = MessageEntity(
+    final userMessage = Message(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
-      content: _messageController.text.trim(),
-      isUser: true,
+      text: _messageController.text.trim(),
+      sender: MessageSender.user,
       timestamp: DateTime.now(),
     );
 
@@ -444,35 +340,35 @@ class _ChattingScreenState extends State<ChattingScreen>
     // Haptic feedback
     HapticFeedback.lightImpact();
 
-    // Simulate AI response delay
-    await Future.delayed(
-        Duration(milliseconds: 1500 + (DateTime.now().millisecond % 1000)));
+    // Simulate AI response
+    Timer(const Duration(milliseconds: 1500), () {
+      setState(() {
+        _isTyping = false;
+      });
 
-    final aiResponse = _generateAIResponse(userMessage.content);
+      if (_currentStep < _aiResponses.length) {
+        final aiMessage = Message(
+          id: (DateTime.now().millisecondsSinceEpoch + 1).toString(),
+          text: _aiResponses[_currentStep],
+          sender: MessageSender.ai,
+          timestamp: DateTime.now(),
+        );
 
-    setState(() {
-      _messages.add(MessageEntity(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
-        content: aiResponse,
-        isUser: false,
-        timestamp: DateTime.now(),
-      ));
-      _isTyping = false;
+        setState(() {
+          _messages.add(aiMessage);
+          _currentStep++;
+        });
+
+        _scrollToBottom();
+
+        // Navigate to success screen after last response
+        if (_currentStep >= _aiResponses.length) {
+          Timer(const Duration(milliseconds: 1500), () {
+            context.goNamed('interview-generated',
+                pathParameters: {'position': userMessage.text});
+          });
+        }
+      }
     });
-
-    _scrollToBottom();
-  }
-
-  void _toggleRecording() {
-    setState(() {
-      _isRecording = !_isRecording;
-    });
-
-    if (_isRecording) {
-      _recordingController.repeat();
-      HapticFeedback.mediumImpact();
-    } else {
-      _recordingController.stop();
-    }
   }
 }

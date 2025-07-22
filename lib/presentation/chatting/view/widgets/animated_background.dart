@@ -1,58 +1,92 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 
-class AnimatedBackground extends StatelessWidget {
-  final AnimationController controller;
+class AnimatedBackground extends StatefulWidget {
+  const AnimatedBackground({super.key});
 
-  const AnimatedBackground({
-    Key? key,
-    required this.controller,
-  }) : super(key: key);
+  @override
+  State<AnimatedBackground> createState() => _AnimatedBackgroundState();
+}
+
+class _AnimatedBackgroundState extends State<AnimatedBackground>
+    with TickerProviderStateMixin {
+  late List<AnimationController> _controllers;
+  late List<Animation<Offset>> _animations;
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: controller,
-      builder: (context, child) {
-        return CustomPaint(
-          painter: BackgroundPainter(controller.value),
-          size: Size.infinite,
+    return Stack(
+      children: _animations.asMap().entries.map((entry) {
+        int index = entry.key;
+        Animation<Offset> animation = entry.value;
+
+        return AnimatedBuilder(
+          animation: animation,
+          builder: (context, child) {
+            return Positioned(
+              left: MediaQuery.of(context).size.width * animation.value.dx,
+              top: MediaQuery.of(context).size.height * animation.value.dy,
+              child: Container(
+                width: 120 + (index * 20),
+                height: 120 + (index * 20),
+                decoration: BoxDecoration(
+                  gradient: RadialGradient(
+                    colors: [
+                      [Colors.purple, Colors.blue, Colors.cyan][index]
+                          .withOpacity(0.2),
+                      [Colors.purple, Colors.blue, Colors.cyan][index]
+                          .withOpacity(0.0),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(100),
+                ),
+              ),
+            );
+          },
         );
-      },
+      }).toList(),
     );
   }
-}
-
-class BackgroundPainter extends CustomPainter {
-  final double animationValue;
-
-  BackgroundPainter(this.animationValue);
 
   @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1;
-
-    // Draw floating geometric shapes
-    for (int i = 0; i < 6; i++) {
-      final progress = (animationValue + i * 0.1) % 1.0;
-      final x =
-          size.width * (0.1 + i * 0.15) + math.sin(progress * 2 * math.pi) * 50;
-      final y =
-          size.height * (0.1 + i * 0.1) + math.cos(progress * 2 * math.pi) * 50;
-
-      paint.color = Colors.blue.withOpacity(0.2);
-
-      canvas.drawCircle(
-        Offset(x, y),
-        30 + math.sin(progress * 4 * math.pi) * 10,
-        paint,
-      );
+  void dispose() {
+    for (var controller in _controllers) {
+      controller.dispose();
     }
+    super.dispose();
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+  void initState() {
+    super.initState();
+    _controllers = List.generate(
+      3,
+      (index) => AnimationController(
+        duration: Duration(seconds: 8 + index * 2),
+        vsync: this,
+      ),
+    );
+
+    _animations = _controllers.asMap().entries.map((entry) {
+      int index = entry.key;
+      AnimationController controller = entry.value;
+
+      return Tween<Offset>(
+        begin: Offset(
+          (index % 2 == 0) ? -0.2 : 1.2,
+          0.2 + (index * 0.3),
+        ),
+        end: Offset(
+          (index % 2 == 0) ? 1.2 : -0.2,
+          0.8 - (index * 0.2),
+        ),
+      ).animate(CurvedAnimation(
+        parent: controller,
+        curve: Curves.easeInOut,
+      ));
+    }).toList();
+
+    for (var controller in _controllers) {
+      controller.repeat(reverse: true);
+    }
+  }
 }

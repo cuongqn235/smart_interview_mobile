@@ -7,6 +7,7 @@ import 'package:smart_interview/presentation/common_widgets/scaffold_with_nav_ba
 import 'package:smart_interview/presentation/dashboard/view/dashboard_screen.dart';
 import 'package:smart_interview/presentation/history/view/history_screen.dart';
 import 'package:smart_interview/presentation/interview/view/interview_screen.dart';
+import 'package:smart_interview/presentation/interview/view/success_screen.dart';
 import 'package:smart_interview/presentation/settings/view/settings_screen.dart';
 import 'package:smart_interview/presentation/splash/view/splash_screen.dart';
 import 'package:smart_interview/presentation/welcome/view/welcome_screen.dart';
@@ -48,6 +49,14 @@ final GoRouter appRouter = GoRouter(
               name: 'interview',
               parentNavigatorKey: _rootNavigatorKey,
               builder: (context, state) => const InterviewScreen(),
+            ),
+            GoRoute(
+              path: 'interview-generated/:position',
+              name: 'interview-generated',
+              parentNavigatorKey: _rootNavigatorKey,
+              builder: (context, state) => InterViewGeneratedScreen(
+                position: state.pathParameters['position'] ?? '',
+              ),
             ),
             GoRoute(
               path: 'history',

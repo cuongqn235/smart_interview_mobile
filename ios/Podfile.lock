@@ -1,9 +1,9 @@
 PODS:
-  - AppAuth (1.7.6):
-    - AppAuth/Core (= 1.7.6)
-    - AppAuth/ExternalUserAgent (= 1.7.6)
-  - AppAuth/Core (1.7.6)
-  - AppAuth/ExternalUserAgent (1.7.6):
+  - AppAuth (2.0.0):
+    - AppAuth/Core (= 2.0.0)
+    - AppAuth/ExternalUserAgent (= 2.0.0)
+  - AppAuth/Core (2.0.0)
+  - AppAuth/ExternalUserAgent (2.0.0):
     - AppAuth/Core
   - AppCheckCore (11.2.0):
     - GoogleUtilities/Environment (~> 8.0)
@@ -11,7 +11,7 @@ PODS:
     - PromisesObjC (~> 2.4)
   - Firebase/CoreOnly (11.15.0):
     - FirebaseCore (~> 11.15.0)
-  - firebase_core (3.15.1):
+  - firebase_core (3.15.2):
     - Firebase/CoreOnly (= 11.15.0)
     - Flutter
   - FirebaseCore (11.15.0):
@@ -24,15 +24,14 @@ PODS:
   - flutter_secure_storage (6.0.0):
     - Flutter
   - google_sign_in_ios (0.0.1):
-    - AppAuth (>= 1.7.4)
     - Flutter
     - FlutterMacOS
-    - GoogleSignIn (~> 8.0)
+    - GoogleSignIn (~> 9.0)
     - GTMSessionFetcher (>= 3.4.0)
-  - GoogleSignIn (8.0.0):
-    - AppAuth (< 2.0, >= 1.7.3)
+  - GoogleSignIn (9.0.0):
+    - AppAuth (~> 2.0)
     - AppCheckCore (~> 11.0)
-    - GTMAppAuth (< 5.0, >= 4.1.1)
+    - GTMAppAuth (~> 5.0)
     - GTMSessionFetcher/Core (~> 3.3)
   - GoogleUtilities/Environment (8.1.0):
     - GoogleUtilities/Privacy
@@ -45,8 +44,8 @@ PODS:
   - GoogleUtilities/UserDefaults (8.1.0):
     - GoogleUtilities/Logger
     - GoogleUtilities/Privacy
-  - GTMAppAuth (4.1.1):
-    - AppAuth/Core (~> 1.7)
+  - GTMAppAuth (5.0.0):
+    - AppAuth/Core (~> 2.0)
     - GTMSessionFetcher/Core (< 4.0, >= 3.3)
   - GTMSessionFetcher (3.5.0):
     - GTMSessionFetcher/Full (= 3.5.0)
@@ -103,18 +102,18 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/sqflite_darwin/darwin"
 
 SPEC CHECKSUMS:
-  AppAuth: d4f13a8fe0baf391b2108511793e4b479691fb73
+  AppAuth: 1c1a8afa7e12f2ec3a294d9882dfa5ab7d3cb063
   AppCheckCore: cc8fd0a3a230ddd401f326489c99990b013f0c4f
   Firebase: d99ac19b909cd2c548339c2241ecd0d1599ab02e
-  firebase_core: ece862f94b2bc72ee0edbeec7ab5c7cb09fe1ab5
+  firebase_core: 995454a784ff288be5689b796deb9e9fa3601818
   FirebaseCore: efb3893e5b94f32b86e331e3bd6dadf18b66568e
   FirebaseCoreInternal: 9afa45b1159304c963da48addb78275ef701c6b4
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_secure_storage: 1ed9476fba7e7a782b22888f956cce43e2c62f13
-  google_sign_in_ios: b48bb9af78576358a168361173155596c845f0b9
-  GoogleSignIn: ce8c89bb9b37fb624b92e7514cc67335d1e277e4
+  google_sign_in_ios: 205742c688aea0e64db9da03c33121694a365109
+  GoogleSignIn: c7f09cfbc85a1abf69187be091997c317cc33b77
   GoogleUtilities: 00c88b9a86066ef77f0da2fab05f65d7768ed8e1
-  GTMAppAuth: f69bd07d68cd3b766125f7e072c45d7340dea0de
+  GTMAppAuth: 217a876b249c3c585a54fd6f73e6b58c4f5c4238
   GTMSessionFetcher: 5aea5ba6bd522a239e236100971f10cb71b96ab6
   path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47

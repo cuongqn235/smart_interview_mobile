@@ -13,6 +13,6 @@ abstract class UserRemoteDataSource {
   factory UserRemoteDataSource(Dio dio, {String? baseUrl}) =
       _UserRemoteDataSource;
 
-  @GET('/users/me')
+  @GET('/user/me')
   Future<BaseResponse<UserInfoResponse>> getUserInfo();
 }

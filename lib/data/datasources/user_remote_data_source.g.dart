@@ -27,7 +27,7 @@ class _UserRemoteDataSource implements UserRemoteDataSource {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/users/me',
+            '/user/me',
             queryParameters: queryParameters,
             data: _data,
           )
