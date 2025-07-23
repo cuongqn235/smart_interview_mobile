@@ -1,46 +1,31 @@
-class MessageEntity {
-  final String id;
-  final String content;
-  final bool isUser;
-  final DateTime timestamp;
-  final MessageType? type;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  MessageEntity({
-    required this.id,
-    required this.content,
-    required this.isUser,
-    required this.timestamp,
-    this.type,
-  });
+part 'message_entity.freezed.dart';
 
-  factory MessageEntity.fromJson(Map<String, dynamic> json) {
-    return MessageEntity(
-      id: json['id'],
-      content: json['content'],
-      isUser: json['isUser'],
-      timestamp: DateTime.parse(json['timestamp']),
-      type: json['type'] != null
-          ? MessageType.values.firstWhere(
-              (e) => e.toString() == json['type'],
-              orElse: () => MessageType.text,
-            )
-          : null,
-    );
-  }
+@freezed
+sealed class MessageEntity with _$MessageEntity {
+  const factory MessageEntity.end({
+    required String content,
+    required MessageSender sender,
+    required DateTime timestamp,
+    required String position,
+    required String language,
+  }) = MessageEntityEnd;
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'content': content,
-      'isUser': isUser,
-      'timestamp': timestamp.toIso8601String(),
-      'type': type?.toString(),
-    };
-  }
+  const factory MessageEntity.message({
+    required String content,
+    required MessageSender sender,
+    required DateTime timestamp,
+  }) = MessageEntityMessage;
 }
 
-enum MessageType {
-  text,
-  audio,
-  system,
+enum MessageSender {
+  user,
+  assistant;
+
+  static MessageSender fromString(String sender) {
+    return MessageSender.values.firstWhere(
+      (e) => e.name == sender,
+    );
+  }
 }

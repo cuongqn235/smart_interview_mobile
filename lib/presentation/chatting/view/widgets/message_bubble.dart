@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:smart_interview/presentation/chatting/view/models/message.dart';
+import 'package:smart_interview/domain/entities/message_entity.dart';
 
 class MessageBubble extends StatefulWidget {
-  final Message message;
+  final MessageEntity message;
   final int animationDelay;
 
   const MessageBubble({
@@ -24,7 +24,6 @@ class _MessageBubbleState extends State<MessageBubble>
   @override
   Widget build(BuildContext context) {
     final isUser = widget.message.sender == MessageSender.user;
-
     return AnimatedBuilder(
       animation: _animationController,
       builder: (context, child) {
@@ -66,9 +65,7 @@ class _MessageBubbleState extends State<MessageBubble>
                         maxWidth: MediaQuery.of(context).size.width * 0.75,
                       ),
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 12,
-                      ),
+                          horizontal: 16, vertical: 12),
                       decoration: BoxDecoration(
                         gradient: isUser
                             ? const LinearGradient(
@@ -91,13 +88,48 @@ class _MessageBubbleState extends State<MessageBubble>
                           ),
                         ],
                       ),
-                      child: Text(
-                        widget.message.text,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          height: 1.4,
-                        ),
+                      child: Column(
+                        children: [
+                          Text(
+                            widget.message.content,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              height: 1.4,
+                            ),
+                          ),
+                          if (widget.message is MessageEntityEnd)
+                            GestureDetector(
+                              onTap: () {},
+                              child: Container(
+                                margin: const EdgeInsets.only(top: 8),
+                                width: double.infinity,
+                                height: 48,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    colors: [Colors.purple, Colors.blue],
+                                  ),
+                                  borderRadius: BorderRadius.circular(24),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.purple.withOpacity(0.3),
+                                      blurRadius: 8,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Text(
+                                  "Bắt đầu phỏng vấn",
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ],
                       ),
                     ),
                   ),
