@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:smart_interview/domain/entities/message_entity.dart';
 
 class MessageBubble extends StatefulWidget {
@@ -100,7 +101,15 @@ class _MessageBubbleState extends State<MessageBubble>
                           ),
                           if (widget.message is MessageEntityEnd)
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                context.pushNamed('interview', pathParameters: {
+                                  'position': widget.message.content,
+                                }, queryParameters: {
+                                  'language': widget.message.mapOrNull(
+                                    end: (end) => end.language,
+                                  ),
+                                });
+                              },
                               child: Container(
                                 margin: const EdgeInsets.only(top: 8),
                                 width: double.infinity,

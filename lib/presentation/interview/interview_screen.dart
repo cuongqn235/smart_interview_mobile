@@ -3,6 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_interview/core/di/injectable.dart';
 import 'package:smart_interview/presentation/interview/bloc/interview_bloc.dart';
 
+import 'view/widgets/feedback_widget.dart';
+import 'view/widgets/generated_interview_widget.dart';
+import 'view/widgets/generating_interview_widget.dart';
+import 'view/widgets/interview_widget.dart';
+
 class InterviewScreen extends StatefulWidget {
   final String position;
   final String? language;
@@ -17,9 +22,24 @@ class _InterviewScreenState extends State<InterviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => _interviewBloc,
-      child: const Placeholder(),
+    return Scaffold(
+      body: BlocProvider(
+        create: (context) => _interviewBloc,
+        child: BlocBuilder<InterviewBloc, InterviewState>(
+          builder: (context, state) {
+            return switch (state.interviewStatus) {
+              InterviewStatus.generating => GeneratingInterviewWidget(
+                  position: widget.position,
+                ),
+              InterviewStatus.generated => GeneratedInterviewWidget(
+                  position: widget.position,
+                ),
+              InterviewStatus.interview => const InterviewWidget(),
+              InterviewStatus.feedback => const FeedbackWidget(),
+            };
+          },
+        ),
+      ),
     );
   }
 
@@ -27,5 +47,9 @@ class _InterviewScreenState extends State<InterviewScreen> {
   void initState() {
     super.initState();
     _interviewBloc = getIt<InterviewBloc>();
+    _interviewBloc.add(InterviewEvent.started(
+      position: widget.position,
+      language: widget.language,
+    ));
   }
 }

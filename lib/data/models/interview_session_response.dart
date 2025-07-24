@@ -10,16 +10,16 @@ class InterviewSessionResponse {
   final String positionDescription;
   final String positionParsed;
   final DateTime startedAt;
-  final DateTime endedAt;
-  final String notes;
+  final DateTime? endedAt;
+  final String? notes;
   final List<InterviewQuestionResponse> questions;
   InterviewSessionResponse({
     required this.id,
     required this.positionDescription,
     required this.positionParsed,
     required this.startedAt,
-    required this.endedAt,
-    required this.notes,
+    this.endedAt,
+    this.notes,
     required this.questions,
   });
 

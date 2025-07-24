@@ -1,0 +1,130 @@
+---
+description: Flutter Clean Architecture & Coding Conventions (v2 – July 2025)
+alwaysApply: false
+---
+
+> **Mục tiêu**: Chuẩn hoá cách tổ chức source-code, đặt tên, DI, state-management và luồng data cho dự án Flutter sử dụng **Clean Architecture + BLoC + Injectable + Freezed + Go Router** (thư mục như đã liệt kê). Rules này _ghi đè_ phiên bản cũ và trở thành “luật vàng” cho mọi PR.
+
+---
+
+## 1 · Lean Screen 2.0
+
+| Nguyên tắc                | Thực thi                                                                                                                                                                                                         |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Giảm _build-method bloat_ | ✓ Không quá **80 dòng** cho `build()` của _Screen_.<br>✓ Tách mọi widget phức tạp sang **presentation/<feature>/view/widgets/**.<br>✓ Nếu widget cần state cục bộ → `StatefulWidget`, còn lại `StatelessWidget`. |
+| Tránh _setState_          | Tất cả logic UI dùng **Bloc/Cubit + Stream** hoặc **animated_builder/ImplicitlyAnimated**; tuyệt đối không lẫn lộn `setState` bên trong BlocBuilder.                                                             |
+| An toàn UI                | Không import bất kỳ lớp từ **data**. Chỉ dùng **entities** (domain) & **blocs** (presentation).                                                                                                                  |
+
+---
+
+## 2 · Layer & Thư mục
+
+core/ // cấu hình app chung  
+data/ // REST/DB & mapping DTO  
+domain/ // pure Dart – không FL import  
+presentation/ // UI + Bloc/Cubit
+
+### 2.1 core/
+
+- config → app_router.dart (Go Router), app_theme.dart
+- di → injectable.dart, \*.config.dart, modules
+- interceptors → auth_interceptors.dart, log, retry, v.v.
+- models/status.dart → Enum & Freezed extension
+- ultis/ → helpers thuần tuý (exception mapper, date ext…)
+
+### 2.2 domain/
+
+- entities/ → Freezed data-class, không JSON code
+- repositories/ → abstract interface
+- (Tuỳ nhu cầu) usecases/ → mỗi file 1 UseCase (command-query)
+
+### 2.3 data/
+
+- datasources/ → Retrofit/Chopper + .g.dart
+- models/ → DTO (.g.dart & freezed)
+- repositories/ → map DTO ⇄ Entity, gọi datasource, KHÔNG logic
+
+### 2.4 presentation/
+
+presentation/<feature>/  
+ bloc/ // XxxBloc, XxxEvent, XxxState (Freezed)  
+ view/ // Xxx_screen.dart + widgets/  
+ models/ // model chỉ dùng cho UI
+
+---
+
+## 3 · BLoC & State Management
+
+1. State & Event luôn Freezed
+2. Dùng sealed union: Initial, Loading, Success(data), Failure(err)
+3. Bloc gọi repo interface (domain), không gọi API trực tiếp
+4. BlocProvider đặt ở Screen hoặc Feature
+5. Không truyền BuildContext xuống tầng thấp
+
+---
+
+## 4 · Dependency Injection (Injectable)
+
+| Quy ước    | Chi tiết                                                        |
+| ---------- | --------------------------------------------------------------- |
+| Annotation | @singleton, @lazySingleton, @injectable                         |
+| Module     | core/modules/app_module.dart cung cấp Dio, SecureStorage, v.v.  |
+| Generating | flutter pub run build_runner watch --delete-conflicting-outputs |
+
+---
+
+## 5 · Networking & Error-Handling
+
+- Dùng Dio + interceptors
+- Response bọc BaseResponse<T>
+- Errors → Failure (domain), ExceptionExtension (core)
+- Bloc nhận Either<Failure, T> hoặc throw
+
+---
+
+## 6 · Navigation (Go Router)
+
+- Tập trung khai báo trong AppRouter.routes
+- Dùng path-name chuẩn `/welcome`, `/chat/:sessionId`,...
+
+---
+
+## 7 · Theming & Localization
+
+- AppTheme.light + AppTheme.dark
+- Mặc định tiếng Việt cho UI
+- Dùng intl + .arb (assets/l10n/)
+
+---
+
+## 8 · Testing Strategy
+
+| Layer        | Test                       | Tool                      |
+| ------------ | -------------------------- | ------------------------- |
+| domain       | unit test UseCase & Entity | flutter_test              |
+| data         | unit test repo impl        | mocktail                  |
+| presentation | widget test Screen & Bloc  | bloc_test, golden_toolkit |
+
+---
+
+## 9 · Naming & Code Style
+
+- snake_case cho file, camelCase cho biến, PascalCase cho class
+- Sắp xếp import theo thứ tự: dart, package, project
+- Comment tiếng Anh, README tiếng Việt nếu phù hợp
+
+---
+
+## 10 · Data Flow Recap
+
+UI Widget → Bloc Event → Domain Repo Interface → Data Repo Impl → Remote/Local Data Source → API/DB  
+Mapping: DTO ↔ Entity chỉ ở _data-layer_
+
+---
+
+### “Ràng buộc vàng”
+
+> **presentation → domain → data** (một chiều).  
+> Không import ngược; vi phạm → fail-CI
+
+---

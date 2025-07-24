@@ -23,7 +23,6 @@ class ChattingBloc extends Bloc<ChattingEvent, ChattingState> {
         ])) {
     on<_SendMessage>((event, emit) async {
       try {
-        emit(state.copyWith(isTyping: true));
         final newMessages = [
           ...state.messages,
           MessageEntity.message(
@@ -32,7 +31,7 @@ class ChattingBloc extends Bloc<ChattingEvent, ChattingState> {
             timestamp: DateTime.now(),
           ),
         ];
-        emit(state.copyWith(messages: newMessages));
+        emit(state.copyWith(messages: newMessages, isTyping: true));
         final message = await _chattingRepo.sendMessage(newMessages);
         emit(state.copyWith(
           messages: [...state.messages, message],

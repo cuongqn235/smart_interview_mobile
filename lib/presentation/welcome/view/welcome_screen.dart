@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_interview/core/config/app_router.dart';
+import 'package:smart_interview/i18n/strings.g.dart';
 import 'package:smart_interview/presentation/auth/bloc/auth_bloc.dart';
 
 class FeatureItem {
@@ -36,7 +37,7 @@ class OnboardingStep {
 }
 
 class WelcomeScreen extends StatefulWidget {
-  const WelcomeScreen({Key? key}) : super(key: key);
+  const WelcomeScreen({super.key});
 
   @override
   State<WelcomeScreen> createState() => _WelcomeScreenState();
@@ -49,79 +50,80 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   late AnimationController _backgroundController;
   late Animation<double> _slideAnimation;
 
-  final List<OnboardingStep> steps = [
-    OnboardingStep(
-      title: 'Chào mừng đến với InterviewAce',
-      subtitle: 'Huấn luyện viên phỏng vấn AI của bạn',
-      description:
-          'Trải nghiệm luyện tập phỏng vấn hoàn toàn mới với công nghệ AI tiên tiến, giúp bạn tự tin chinh phục mọi cuộc phỏng vấn.',
-      icon: Icons.work_outline,
-      gradient:
-          const LinearGradient(colors: [Color(0xFF3B82F6), Color(0xFF4F46E5)]),
-      bgGradient:
-          const LinearGradient(colors: [Color(0xFFEFF6FF), Color(0xFFE0E7FF)]),
-      features: [
-        FeatureItem(text: 'Phản hồi từ AI thông minh', icon: Icons.psychology),
-        FeatureItem(
-            text: 'Huấn luyện cá nhân hóa 100%', icon: Icons.track_changes),
-        FeatureItem(
-            text: 'Câu hỏi theo từng ngành nghề', icon: Icons.work_outline),
-      ],
-      stats: {'users': '10K+', 'success': '95%', 'questions': '500+'},
-    ),
-    OnboardingStep(
-      title: 'Luyện Tập Thông Minh',
-      subtitle: 'Từ cơ bản đến chuyên sâu',
-      description:
-          'Hệ thống câu hỏi đa dạng từ các công ty hàng đầu, được phân loại theo ngành nghề và mức độ kinh nghiệm của bạn.',
-      icon: Icons.psychology,
-      gradient:
-          const LinearGradient(colors: [Color(0xFF8B5CF6), Color(0xFFEC4899)]),
-      bgGradient:
-          const LinearGradient(colors: [Color(0xFFFAF5FF), Color(0xFFFDF2F8)]),
-      features: [
-        FeatureItem(text: '500+ câu hỏi thực tế', icon: Icons.star),
-        FeatureItem(text: 'Đa dạng ngành nghề', icon: Icons.groups),
-        FeatureItem(text: 'Mức độ khó thích ứng', icon: Icons.trending_up),
-      ],
-      stats: {'categories': '15+', 'difficulty': '3', 'companies': '100+'},
-    ),
-    OnboardingStep(
-      title: 'Phân Tích Chuyên Sâu',
-      subtitle: 'Theo dõi từng bước tiến bộ',
-      description:
-          'Dashboard phân tích chi tiết giúp bạn hiểu rõ điểm mạnh, điểm yếu và lộ trình cải thiện cá nhân.',
-      icon: Icons.bar_chart,
-      gradient:
-          const LinearGradient(colors: [Color(0xFF10B981), Color(0xFF059669)]),
-      bgGradient:
-          const LinearGradient(colors: [Color(0xFFECFDF5), Color(0xFFD1FAE5)]),
-      features: [
-        FeatureItem(text: 'Theo dõi hiệu suất realtime', icon: Icons.bar_chart),
-        FeatureItem(
-            text: 'Đánh giá kỹ năng chi tiết', icon: Icons.emoji_events),
-        FeatureItem(text: 'Báo cáo tiến độ trực quan', icon: Icons.trending_up),
-      ],
-      stats: {'accuracy': '98%', 'insights': '50+', 'tracking': '24/7'},
-    ),
-    OnboardingStep(
-      title: 'Linh Hoạt & Tiện Lợi',
-      subtitle: 'Luyện tập theo cách của bạn',
-      description:
-          'Hỗ trợ cả trả lời bằng giọng nói và văn bản, phù hợp với mọi phong cách học tập và sở thích cá nhân.',
-      icon: Icons.mic,
-      gradient:
-          const LinearGradient(colors: [Color(0xFFF97316), Color(0xFFDC2626)]),
-      bgGradient:
-          const LinearGradient(colors: [Color(0xFFFFF7ED), Color(0xFFFEF2F2)]),
-      features: [
-        FeatureItem(text: 'Ghi âm giọng nói chất lượng cao', icon: Icons.mic),
-        FeatureItem(text: 'Soạn thảo văn bản linh hoạt', icon: Icons.edit),
-        FeatureItem(text: 'Chế độ luyện tập đa dạng', icon: Icons.auto_awesome),
-      ],
-      stats: {'modes': '2', 'quality': 'HD', 'support': '24/7'},
-    ),
-  ];
+  List<OnboardingStep> get steps => [
+        OnboardingStep(
+          title: t.welcome.step1.title,
+          subtitle: t.welcome.step1.subtitle,
+          description: t.welcome.step1.description,
+          icon: Icons.work_outline,
+          gradient: const LinearGradient(
+              colors: [Color(0xFF3B82F6), Color(0xFF4F46E5)]),
+          bgGradient: const LinearGradient(
+              colors: [Color(0xFFEFF6FF), Color(0xFFE0E7FF)]),
+          features: [
+            FeatureItem(
+                text: t.welcome.step1.features[0], icon: Icons.psychology),
+            FeatureItem(
+                text: t.welcome.step1.features[1], icon: Icons.track_changes),
+            FeatureItem(
+                text: t.welcome.step1.features[2], icon: Icons.work_outline),
+          ],
+          stats: {'users': '10K+', 'success': '95%', 'questions': '500+'},
+        ),
+        OnboardingStep(
+          title: t.welcome.step2.title,
+          subtitle: t.welcome.step2.subtitle,
+          description: t.welcome.step2.description,
+          icon: Icons.psychology,
+          gradient: const LinearGradient(
+              colors: [Color(0xFF8B5CF6), Color(0xFFEC4899)]),
+          bgGradient: const LinearGradient(
+              colors: [Color(0xFFFAF5FF), Color(0xFFFDF2F8)]),
+          features: [
+            FeatureItem(text: t.welcome.step2.features[0], icon: Icons.star),
+            FeatureItem(text: t.welcome.step2.features[1], icon: Icons.groups),
+            FeatureItem(
+                text: t.welcome.step2.features[2], icon: Icons.trending_up),
+          ],
+          stats: {'categories': '15+', 'difficulty': '3', 'companies': '100+'},
+        ),
+        OnboardingStep(
+          title: t.welcome.step3.title,
+          subtitle: t.welcome.step3.subtitle,
+          description: t.welcome.step3.description,
+          icon: Icons.bar_chart,
+          gradient: const LinearGradient(
+              colors: [Color(0xFF10B981), Color(0xFF059669)]),
+          bgGradient: const LinearGradient(
+              colors: [Color(0xFFECFDF5), Color(0xFFD1FAE5)]),
+          features: [
+            FeatureItem(
+                text: t.welcome.step3.features[0], icon: Icons.bar_chart),
+            FeatureItem(
+                text: t.welcome.step3.features[1], icon: Icons.emoji_events),
+            FeatureItem(
+                text: t.welcome.step3.features[2], icon: Icons.trending_up),
+          ],
+          stats: {'accuracy': '98%', 'insights': '50+', 'tracking': '24/7'},
+        ),
+        OnboardingStep(
+          title: t.welcome.step4.title,
+          subtitle: t.welcome.step4.subtitle,
+          description: t.welcome.step4.description,
+          icon: Icons.mic,
+          gradient: const LinearGradient(
+              colors: [Color(0xFFF97316), Color(0xFFDC2626)]),
+          bgGradient: const LinearGradient(
+              colors: [Color(0xFFFFF7ED), Color(0xFFFEF2F2)]),
+          features: [
+            FeatureItem(text: t.welcome.step4.features[0], icon: Icons.mic),
+            FeatureItem(text: t.welcome.step4.features[1], icon: Icons.edit),
+            FeatureItem(
+                text: t.welcome.step4.features[2], icon: Icons.auto_awesome),
+          ],
+          stats: {'modes': '2', 'quality': 'HD', 'support': '24/7'},
+        ),
+      ];
 
   @override
   Widget build(BuildContext context) {
@@ -382,9 +384,9 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             onPressed: () {
               context.read<AuthBloc>().add(const AuthEvent.setFirstLaunch());
             },
-            child: const Text(
-              'Bỏ qua',
-              style: TextStyle(
+            child: Text(
+              t.welcome.skip,
+              style: const TextStyle(
                 color: Colors.black54,
                 fontWeight: FontWeight.w500,
               ),
@@ -447,7 +449,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           TextButton.icon(
             onPressed: currentStep > 0 ? _previousStep : null,
             icon: const Icon(Icons.chevron_left),
-            label: const Text('Trước'),
+            label: Text(t.welcome.previous),
             style: TextButton.styleFrom(
               foregroundColor: Colors.black54,
             ),
@@ -467,8 +469,9 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           ElevatedButton.icon(
             onPressed: () => _nextStep(context),
             icon: const Icon(Icons.chevron_right),
-            label: Text(
-                currentStep == steps.length - 1 ? 'Bắt Đầu Ngay' : 'Tiếp Theo'),
+            label: Text(currentStep == steps.length - 1
+                ? t.welcome.getStarted
+                : t.welcome.next),
             style: ElevatedButton.styleFrom(
               backgroundColor: steps[currentStep].gradient.colors.first,
               foregroundColor: Colors.white,
@@ -590,29 +593,29 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   String _getStatLabel(String key) {
     switch (key) {
       case 'users':
-        return 'Người dùng';
+        return t.welcome.step1.stats.users;
       case 'success':
-        return 'Thành công';
+        return t.welcome.step1.stats.success;
       case 'questions':
-        return 'Câu hỏi';
+        return t.welcome.step1.stats.questions;
       case 'categories':
-        return 'Danh mục';
+        return t.welcome.step2.stats.categories;
       case 'difficulty':
-        return 'Mức độ';
+        return t.welcome.step2.stats.difficulty;
       case 'companies':
-        return 'Công ty';
+        return t.welcome.step2.stats.companies;
       case 'accuracy':
-        return 'Chính xác';
+        return t.welcome.step3.stats.accuracy;
       case 'insights':
-        return 'Thông tin';
+        return t.welcome.step3.stats.insights;
       case 'tracking':
-        return 'Theo dõi';
+        return t.welcome.step3.stats.tracking;
       case 'modes':
-        return 'Chế độ';
+        return t.welcome.step4.stats.modes;
       case 'quality':
-        return 'Chất lượng';
+        return t.welcome.step4.stats.quality;
       case 'support':
-        return 'Hỗ trợ';
+        return t.welcome.step4.stats.support;
       default:
         return key;
     }

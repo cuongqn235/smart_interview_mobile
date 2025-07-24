@@ -1,23 +1,26 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_interview/i18n/strings.g.dart';
+import 'package:smart_interview/presentation/interview/bloc/interview_bloc.dart';
 
-class InterViewGeneratedScreen extends StatefulWidget {
+class GeneratedInterviewWidget extends StatefulWidget {
   final String position;
 
-  const InterViewGeneratedScreen({super.key, required this.position});
+  const GeneratedInterviewWidget({super.key, required this.position});
 
   @override
-  State<InterViewGeneratedScreen> createState() =>
-      _InterViewGeneratedScreenState();
+  State<GeneratedInterviewWidget> createState() =>
+      _GeneratedInterviewWidgetState();
 }
 
-class _InterViewGeneratedScreenState extends State<InterViewGeneratedScreen>
+class _GeneratedInterviewWidgetState extends State<GeneratedInterviewWidget>
     with TickerProviderStateMixin {
-  late AnimationController _mainAnimationController;
-  late AnimationController _particleAnimationController;
-  late Animation<double> _scaleAnimation;
-  late Animation<double> _rotationAnimation;
+  late final AnimationController _mainAnimationController;
+  late final AnimationController _particleAnimationController;
+  late final Animation<double> _scaleAnimation;
+  late final Animation<double> _rotationAnimation;
 
   @override
   Widget build(BuildContext context) {
@@ -122,9 +125,9 @@ class _InterViewGeneratedScreenState extends State<InterViewGeneratedScreen>
                           offset: Offset(0, 30 * (1 - value)),
                           child: Column(
                             children: [
-                              const Text(
-                                'Tạo câu hỏi thành công! ✨',
-                                style: TextStyle(
+                              Text(
+                                t.generatedInterview.successTitle,
+                                style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 24,
                                   fontWeight: FontWeight.bold,
@@ -133,7 +136,7 @@ class _InterViewGeneratedScreenState extends State<InterViewGeneratedScreen>
                               ),
                               const SizedBox(height: 16),
                               Text(
-                                'Đã chuẩn bị 5 câu hỏi cho vị trí',
+                                t.generatedInterview.successSubtitle,
                                 style: TextStyle(
                                   color: Colors.white.withOpacity(0.8),
                                   fontSize: 16,
@@ -198,23 +201,24 @@ class _InterViewGeneratedScreenState extends State<InterViewGeneratedScreen>
                             child: InkWell(
                               borderRadius: BorderRadius.circular(28),
                               onTap: () {
-                                // Navigate to question screen
-                                // This would be implemented based on your app structure
+                                context.read<InterviewBloc>().add(
+                                      InterviewEvent.interviewStarted(),
+                                    );
                               },
-                              child: const Center(
+                              child: Center(
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'Bắt đầu phỏng vấn',
-                                      style: TextStyle(
+                                      t.generatedInterview.startInterview,
+                                      style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 18,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
-                                    SizedBox(width: 8),
-                                    Icon(
+                                    const SizedBox(width: 8),
+                                    const Icon(
                                       Icons.arrow_forward,
                                       color: Colors.white,
                                       size: 20,

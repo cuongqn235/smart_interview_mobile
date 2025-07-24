@@ -1,0 +1,141 @@
+{
+  "interview": {
+    "question": "Câu hỏi $questionNumber/$totalQuestions",
+    "yourAnswer": "Câu trả lời của bạn sẽ xuất hiện ở đây...",
+    "previous": "Trước",
+    "next": "Tiếp",
+    "finish": "Hoàn thành",
+    "feedback": "Phản hồi",
+    "noAnswer": "Không có câu trả lời.",
+    "aiFeedback": "Phản hồi từ AI",
+    "structureFeedback": "Phản hồi về cấu trúc",
+    "contentFeedback": "Phản hồi về nội dung",
+    "keywordFeedback": "Phản hồi về từ khóa"
+  },
+  "dashboard": {
+    "header": {
+      "title": "AI Interview Coach",
+      "subtitle": "Chuẩn bị phỏng vấn thông minh"
+    },
+    "welcomeMessages": ["Chào mừng đến với AI Interview Coach! 👋", "Chuẩn bị phỏng vấn thông minh với AI 🚀", "Luyện tập, nhận phản hồi, thành công! ✨"],
+    "stats": {
+      "users": "Người dùng",
+      "success": "Thành công",
+      "rating": "Đánh giá"
+    },
+    "features": {
+      "title": "Tính năng nổi bật",
+      "chat": {
+        "title": "Chat thông minh",
+        "description": "Trò chuyện tự nhiên với AI để xác định vị trí phỏng vấn"
+      },
+      "recording": {
+        "title": "Ghi âm thực tế",
+        "description": "Trả lời bằng giọng nói như phỏng vấn thật"
+      },
+      "analysis": {
+        "title": "Phân tích AI",
+        "description": "Đánh giá chi tiết kỹ năng và đưa ra gợi ý cải thiện"
+      },
+      "results": {
+        "title": "Kết quả chi tiết",
+        "description": "Báo cáo toàn diện với điểm số và phản hồi"
+      }
+    },
+    "recentActivities": "Hoạt động gần đây",
+    "startInterview": "Bắt đầu phỏng vấn AI",
+    "tip": "💡 Mẹo: Chuẩn bị sẵn CV và mô tả công việc để có trải nghiệm tốt nhất"
+  },
+  "generatedInterview": {
+    "successTitle": "Tạo câu hỏi thành công! ✨",
+    "successSubtitle": "Đã chuẩn bị 5 câu hỏi cho vị trí",
+    "startInterview": "Bắt đầu phỏng vấn"
+  },
+  "generatingInterview": {
+    "title": "Đang tạo câu hỏi... 🤖",
+    "subtitle": "Cho vị trí",
+    "funFactsTitle": "💡 Bạn có biết?",
+    "funFacts": [
+      "AI của chúng tôi được huấn luyện trên hàng triệu câu hỏi phỏng vấn thực tế",
+      "Mỗi câu hỏi được tạo ra dựa trên yêu cầu cụ thể của vị trí công việc",
+      "Hệ thống sẽ điều chỉnh độ khó phù hợp với level kinh nghiệm của bạn"
+    ],
+    "steps": {
+      "analyzing": {
+        "title": "Phân tích vị trí",
+        "description": "Đang phân tích yêu cầu công việc..."
+      },
+      "thinking": {
+        "title": "AI suy nghĩ",
+        "description": "Đang tạo câu hỏi phù hợp..."
+      },
+      "optimizing": {
+        "title": "Tối ưu hóa",
+        "description": "Đang tối ưu độ khó và relevance..."
+      },
+      "completing": {
+        "title": "Hoàn thiện",
+        "description": "Đang hoàn thiện bộ câu hỏi..."
+      }
+    },
+    "progress": "Tiến độ",
+    "completed": "Hoàn thành!"
+  },
+  "login": {
+    "title": "AI Interview Coach",
+    "subtitle": "Nâng tầm sự nghiệp của bạn qua từng buổi phỏng vấn.",
+    "appleButton": "Tiếp tục với Apple",
+    "googleButton": "Tiếp tục với Google",
+    "terms": "Bằng cách tiếp tục, bạn đồng ý với Điều khoản & Điều kiện của chúng tôi."
+  },
+  "welcome": {
+    "skip": "Bỏ qua",
+    "previous": "Trước",
+    "next": "Tiếp Theo",
+    "getStarted": "Bắt Đầu Ngay",
+    "step1": {
+      "title": "Chào mừng đến với InterviewAce",
+      "subtitle": "Huấn luyện viên phỏng vấn AI của bạn",
+      "description": "Trải nghiệm luyện tập phỏng vấn hoàn toàn mới với công nghệ AI tiên tiến, giúp bạn tự tin chinh phục mọi cuộc phỏng vấn.",
+      "features": ["Phản hồi từ AI thông minh", "Huấn luyện cá nhân hóa 100%", "Câu hỏi theo từng ngành nghề"],
+      "stats": {
+        "users": "Người dùng",
+        "success": "Thành công",
+        "questions": "Câu hỏi"
+      }
+    },
+    "step2": {
+      "title": "Luyện Tập Thông Minh",
+      "subtitle": "Từ cơ bản đến chuyên sâu",
+      "description": "Hệ thống câu hỏi đa dạng từ các công ty hàng đầu, được phân loại theo ngành nghề và mức độ kinh nghiệm của bạn.",
+      "features": ["500+ câu hỏi thực tế", "Đa dạng ngành nghề", "Mức độ khó thích ứng"],
+      "stats": {
+        "categories": "Danh mục",
+        "difficulty": "Mức độ",
+        "companies": "Công ty"
+      }
+    },
+    "step3": {
+      "title": "Phân Tích Chuyên Sâu",
+      "subtitle": "Theo dõi từng bước tiến bộ",
+      "description": "Dashboard phân tích chi tiết giúp bạn hiểu rõ điểm mạnh, điểm yếu và lộ trình cải thiện cá nhân.",
+      "features": ["Theo dõi hiệu suất realtime", "Đánh giá kỹ năng chi tiết", "Báo cáo tiến độ trực quan"],
+      "stats": {
+        "accuracy": "Chính xác",
+        "insights": "Thông tin",
+        "tracking": "Theo dõi"
+      }
+    },
+    "step4": {
+      "title": "Linh Hoạt & Tiện Lợi",
+      "subtitle": "Luyện tập theo cách của bạn",
+      "description": "Hỗ trợ cả trả lời bằng giọng nói và văn bản, phù hợp với mọi phong cách học tập và sở thích cá nhân.",
+      "features": ["Ghi âm giọng nói chất lượng cao", "Soạn thảo văn bản linh hoạt", "Chế độ luyện tập đa dạng"],
+      "stats": {
+        "modes": "Chế độ",
+        "quality": "Chất lượng",
+        "support": "Hỗ trợ"
+      }
+    }
+  }
+}

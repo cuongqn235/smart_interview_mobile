@@ -1,18 +1,17 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 import 'ai_feedback_entity.dart';
 
-class UserAnswerEntity {
-  final int id;
-  final String answerText;
-  final String audioUrl;
-  final int speechSpeedWpm;
-  final int fillerWordsCount;
-  final AiFeedbackEntity? feedback;
-  UserAnswerEntity({
-    required this.id,
-    required this.answerText,
-    required this.audioUrl,
-    required this.speechSpeedWpm,
-    required this.fillerWordsCount,
-    this.feedback,
-  });
+part 'user_answer_entity.freezed.dart';
+
+@freezed
+sealed class UserAnswerEntity with _$UserAnswerEntity {
+  const factory UserAnswerEntity({
+    int? id,
+    required String answerText,
+    String? audioUrl,
+    int? speechSpeedWpm,
+    int? fillerWordsCount,
+    AiFeedbackEntity? feedback,
+  }) = _UserAnswerEntity;
 }

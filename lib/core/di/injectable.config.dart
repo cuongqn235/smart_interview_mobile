@@ -62,16 +62,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i460.SharedPreferences>(),
           gh<_i558.FlutterSecureStorage>(),
         ));
-    gh.lazySingleton<_i351.UserRemoteDataSource>(
-        () => _i351.UserRemoteDataSource(
-              gh<_i361.Dio>(),
-              baseUrl: gh<String>(),
-            ));
-    gh.lazySingleton<_i716.AuthRemoteDataSource>(
-        () => _i716.AuthRemoteDataSource(
-              gh<_i361.Dio>(),
-              baseUrl: gh<String>(),
-            ));
     gh.lazySingleton<_i925.ChattingRemoteDataSource>(
         () => _i925.ChattingRemoteDataSource(
               gh<_i361.Dio>(),
@@ -79,6 +69,16 @@ extension GetItInjectableX on _i174.GetIt {
             ));
     gh.lazySingleton<_i138.InterviewSessionRemoteDataSource>(
         () => _i138.InterviewSessionRemoteDataSource(
+              gh<_i361.Dio>(),
+              baseUrl: gh<String>(),
+            ));
+    gh.lazySingleton<_i351.UserRemoteDataSource>(
+        () => _i351.UserRemoteDataSource(
+              gh<_i361.Dio>(),
+              baseUrl: gh<String>(),
+            ));
+    gh.lazySingleton<_i716.AuthRemoteDataSource>(
+        () => _i716.AuthRemoteDataSource(
               gh<_i361.Dio>(),
               baseUrl: gh<String>(),
             ));

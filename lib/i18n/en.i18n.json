@@ -1,0 +1,142 @@
+{
+  "interview": {
+    "question": "Question $questionNumber/$totalQuestions",
+    "yourAnswer": "Your answer will appear here...",
+    "previous": "Previous",
+    "next": "Next",
+    "finish": "Finish",
+    "feedback": "Feedback",
+    "noAnswer": "No answer provided.",
+    "aiFeedback": "AI Feedback",
+    "structureFeedback": "Structure Feedback",
+    "contentFeedback": "Content Feedback",
+    "keywordFeedback": "Keyword Feedback"
+  },
+  "dashboard": {
+    "header": {
+      "title": "AI Interview Coach",
+      "subtitle": "Prepare for interviews intelligently"
+    },
+    "welcomeMessages": ["Welcome to AI Interview Coach! 👋", "Prepare for your interview intelligently with AI 🚀", "Practice, get feedback, succeed! ✨"],
+    "stats": {
+      "users": "Users",
+      "success": "Success",
+      "rating": "Rating"
+    },
+    "features": {
+      "title": "Key Features",
+      "chat": {
+        "title": "Smart Chat",
+        "description": "Chat naturally with AI to determine the interview position"
+      },
+      "recording": {
+        "title": "Realistic Recording",
+        "description": "Answer with your voice just like a real interview"
+      },
+      "analysis": {
+        "title": "AI Analysis",
+        "description": "Get detailed skill assessments and suggestions for improvement"
+      },
+      "results": {
+        "title": "Detailed Results",
+        "description": "Comprehensive reports with scores and feedback"
+      }
+    },
+    "recentActivities": "Recent Activities",
+    "startInterview": "Start AI Interview",
+    "tip": "💡 Tip: Prepare your CV and job description for the best experience"
+  },
+  "generatedInterview": {
+    "successTitle": "Questions generated successfully! ✨",
+    "successSubtitle": "5 questions have been prepared for the position",
+    "startInterview": "Start Interview"
+  },
+  "generatingInterview": {
+    "title": "Generating questions... 🤖",
+    "subtitle": "For the position",
+    "funFactsTitle": "💡 Did you know?",
+    "funFacts": [
+      "Our AI is trained on millions of real interview questions",
+      "Each question is generated based on the specific job requirements",
+      "The system adjusts the difficulty to match your experience level"
+    ],
+    "steps": {
+      "analyzing": {
+        "title": "Analyzing Position",
+        "description": "Analyzing job requirements..."
+      },
+      "thinking": {
+        "title": "AI Thinking",
+        "description": "Generating suitable questions..."
+      },
+      "optimizing": {
+        "title": "Optimizing",
+        "description": "Optimizing for difficulty and relevance..."
+      },
+      "completing": {
+        "title": "Finalizing",
+        "description": "Finalizing the question set..."
+      }
+    },
+    "progress": "Progress",
+    "completed": "Completed!"
+  },
+  "login": {
+    "title": "AI Interview Coach",
+    "subtitle": "Elevate your career through every interview.",
+    "appleButton": "Continue with Apple",
+    "googleButton": "Continue with Google",
+    "terms": "By continuing, you agree to our Terms & Conditions."
+  },
+
+  "welcome": {
+    "skip": "Skip",
+    "previous": "Previous",
+    "next": "Next",
+    "getStarted": "Get Started",
+    "step1": {
+      "title": "Welcome to InterviewAce",
+      "subtitle": "Your AI Interview Coach",
+      "description": "Experience a whole new way to practice for interviews with advanced AI technology, helping you confidently conquer any interview.",
+      "features": ["Smart AI Feedback", "100% Personalized Coaching", "Industry-Specific Questions"],
+      "stats": {
+        "users": "Users",
+        "success": "Success",
+        "questions": "Questions"
+      }
+    },
+    "step2": {
+      "title": "Intelligent Practice",
+      "subtitle": "From basic to advanced",
+      "description": "A diverse question system from leading companies, categorized by industry and your experience level.",
+      "features": ["500+ Real Questions", "Diverse Industries", "Adaptive Difficulty Levels"],
+      "stats": {
+        "categories": "Categories",
+        "difficulty": "Levels",
+        "companies": "Companies"
+      }
+    },
+    "step3": {
+      "title": "In-Depth Analysis",
+      "subtitle": "Track every step of your progress",
+      "description": "A detailed analysis dashboard helps you understand your strengths, weaknesses, and a personalized improvement path.",
+      "features": ["Real-time Performance Tracking", "Detailed Skill Assessment", "Visual Progress Reports"],
+      "stats": {
+        "accuracy": "Accuracy",
+        "insights": "Insights",
+        "tracking": "Tracking"
+      }
+    },
+    "step4": {
+      "title": "Flexible & Convenient",
+      "subtitle": "Practice your way",
+      "description": "Supports both voice and text responses, suitable for all learning styles and personal preferences.",
+      "features": ["High-Quality Voice Recording", "Flexible Text-Editing", "Diverse Practice Modes"],
+      "stats": {
+        "modes": "Modes",
+        "quality": "Quality",
+        "support": "Support"
+      }
+    }
+  }
+}

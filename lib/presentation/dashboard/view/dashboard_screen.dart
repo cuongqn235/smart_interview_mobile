@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:smart_interview/i18n/strings.g.dart';
 import 'package:smart_interview/presentation/chatting/view/widgets/animated_background.dart';
 import 'package:smart_interview/presentation/dashboard/models/activity.dart';
 import 'package:smart_interview/presentation/dashboard/models/feature.dart';
@@ -32,58 +33,62 @@ class _DashboardScreenState extends State<DashboardScreen>
   int _currentMessageIndex = 0;
   Timer? _messageTimer;
 
-  final List<String> _welcomeMessages = [
-    "Chào mừng đến với AI Interview Coach! 👋",
-    "Chuẩn bị phỏng vấn thông minh với AI 🚀",
-    "Luyện tập, nhận phản hồi, thành công! ✨",
-  ];
-
-  final List<Feature> _features = [
-    Feature(
-      icon: Icons.chat_bubble_outline,
-      title: "Chat thông minh",
-      description: "Trò chuyện tự nhiên với AI để xác định vị trí phỏng vấn",
-      gradient: const LinearGradient(
-        colors: [Color(0xFF3B82F6), Color(0xFF06B6D4)],
-      ),
-    ),
-    Feature(
-      icon: Icons.mic,
-      title: "Ghi âm thực tế",
-      description: "Trả lời bằng giọng nói như phỏng vấn thật",
-      gradient: const LinearGradient(
-        colors: [Color(0xFF8B5CF6), Color(0xFFEC4899)],
-      ),
-    ),
-    Feature(
-      icon: Icons.bar_chart,
-      title: "Phân tích AI",
-      description: "Đánh giá chi tiết kỹ năng và đưa ra gợi ý cải thiện",
-      gradient: const LinearGradient(
-        colors: [Color(0xFF10B981), Color(0xFF059669)],
-      ),
-    ),
-    Feature(
-      icon: Icons.emoji_events,
-      title: "Kết quả chi tiết",
-      description: "Báo cáo toàn diện với điểm số và phản hồi",
-      gradient: const LinearGradient(
-        colors: [Color(0xFFF59E0B), Color(0xFFEA580C)],
-      ),
-    ),
-  ];
-
-  final List<Stat> _stats = [
-    Stat(number: "10K+", label: "Người dùng", icon: Icons.people),
-    Stat(number: "95%", label: "Thành công", icon: Icons.track_changes),
-    Stat(number: "4.9", label: "Đánh giá", icon: Icons.star),
-  ];
-
   final List<Activity> _activities = [
     Activity(user: "Minh", position: "Frontend Developer", score: 92),
     Activity(user: "Lan", position: "Product Manager", score: 88),
     Activity(user: "Hùng", position: "Data Analyst", score: 95),
   ];
+
+  List<Feature> get _features => [
+        Feature(
+          icon: Icons.chat_bubble_outline,
+          title: t.dashboard.features.chat.title,
+          description: t.dashboard.features.chat.description,
+          gradient: const LinearGradient(
+            colors: [Color(0xFF3B82F6), Color(0xFF06B6D4)],
+          ),
+        ),
+        Feature(
+          icon: Icons.mic,
+          title: t.dashboard.features.recording.title,
+          description: t.dashboard.features.recording.description,
+          gradient: const LinearGradient(
+            colors: [Color(0xFF8B5CF6), Color(0xFFEC4899)],
+          ),
+        ),
+        Feature(
+          icon: Icons.bar_chart,
+          title: t.dashboard.features.analysis.title,
+          description: t.dashboard.features.analysis.description,
+          gradient: const LinearGradient(
+            colors: [Color(0xFF10B981), Color(0xFF059669)],
+          ),
+        ),
+        Feature(
+          icon: Icons.emoji_events,
+          title: t.dashboard.features.results.title,
+          description: t.dashboard.features.results.description,
+          gradient: const LinearGradient(
+            colors: [Color(0xFFF59E0B), Color(0xFFEA580C)],
+          ),
+        ),
+      ];
+
+  List<Stat> get _stats => [
+        Stat(
+            number: "10K+", label: t.dashboard.stats.users, icon: Icons.people),
+        Stat(
+            number: "95%",
+            label: t.dashboard.stats.success,
+            icon: Icons.track_changes),
+        Stat(number: "4.9", label: t.dashboard.stats.rating, icon: Icons.star),
+      ];
+
+  List<String> get _welcomeMessages => [
+        t.dashboard.welcomeMessages[0],
+        t.dashboard.welcomeMessages[1],
+        t.dashboard.welcomeMessages[2],
+      ];
 
   @override
   Widget build(BuildContext context) {
@@ -159,12 +164,12 @@ class _DashboardScreenState extends State<DashboardScreen>
                                 },
                               ),
                               const SizedBox(width: 12),
-                              const Expanded(
+                              Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'AI Interview Coach',
+                                      t.dashboard.header.title,
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 20,
@@ -172,7 +177,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                       ),
                                     ),
                                     Text(
-                                      'Chuẩn bị phỏng vấn thông minh',
+                                      t.dashboard.header.subtitle,
                                       style: TextStyle(
                                         color: Colors.white70,
                                         fontSize: 12,
@@ -181,25 +186,26 @@ class _DashboardScreenState extends State<DashboardScreen>
                                   ],
                                 ),
                               ),
-                              // Star rating
+                              // Language toggle
                               Row(
-                                children: List.generate(5, (index) {
-                                  return TweenAnimationBuilder<double>(
-                                    tween: Tween(begin: 0.0, end: 1.0),
-                                    duration: Duration(
-                                        milliseconds: 800 + index * 100),
-                                    builder: (context, value, child) {
-                                      return Transform.scale(
-                                        scale: value,
-                                        child: const Icon(
-                                          Icons.star,
-                                          color: Colors.amber,
-                                          size: 12,
-                                        ),
-                                      );
+                                children: [
+                                  const Text('VI',
+                                      style: TextStyle(color: Colors.white)),
+                                  Switch(
+                                    value: LocaleSettings.currentLocale ==
+                                        AppLocale.en,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        LocaleSettings.setLocale(value
+                                            ? AppLocale.en
+                                            : AppLocale.vi);
+                                      });
                                     },
-                                  );
-                                }),
+                                    activeColor: Colors.purple,
+                                  ),
+                                  const Text('EN',
+                                      style: TextStyle(color: Colors.white)),
+                                ],
                               ),
                             ],
                           ),
@@ -327,17 +333,17 @@ class _DashboardScreenState extends State<DashboardScreen>
                                 opacity: value,
                                 child: Transform.translate(
                                   offset: Offset(-20 * (1 - value), 0),
-                                  child: const Row(
+                                  child: Row(
                                     children: [
-                                      Icon(
+                                      const Icon(
                                         Icons.flash_on,
                                         color: Colors.amber,
                                         size: 20,
                                       ),
-                                      SizedBox(width: 8),
+                                      const SizedBox(width: 8),
                                       Text(
-                                        'Tính năng nổi bật',
-                                        style: TextStyle(
+                                        t.dashboard.features.title,
+                                        style: const TextStyle(
                                           color: Colors.white,
                                           fontSize: 18,
                                           fontWeight: FontWeight.w600,
@@ -388,9 +394,9 @@ class _DashboardScreenState extends State<DashboardScreen>
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Text(
-                                      'Hoạt động gần đây',
-                                      style: TextStyle(
+                                    Text(
+                                      t.dashboard.recentActivities,
+                                      style: const TextStyle(
                                         color: Colors.white70,
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
@@ -516,27 +522,27 @@ class _DashboardScreenState extends State<DashboardScreen>
                                           ),
                                         ),
                                         // Button content
-                                        const Center(
+                                        Center(
                                           child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
-                                              Icon(
+                                              const Icon(
                                                 Icons.chat_bubble_outline,
                                                 color: Colors.white,
                                                 size: 20,
                                               ),
-                                              SizedBox(width: 8),
+                                              const SizedBox(width: 8),
                                               Text(
-                                                'Bắt đầu phỏng vấn AI',
-                                                style: TextStyle(
+                                                t.dashboard.startInterview,
+                                                style: const TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
-                                              SizedBox(width: 8),
-                                              Icon(
+                                              const SizedBox(width: 8),
+                                              const Icon(
                                                 Icons.arrow_forward,
                                                 color: Colors.white,
                                                 size: 20,
@@ -561,9 +567,9 @@ class _DashboardScreenState extends State<DashboardScreen>
                       builder: (context, value, child) {
                         return Opacity(
                           opacity: value,
-                          child: const Text(
-                            '💡 Mẹo: Chuẩn bị sẵn CV và mô tả công việc để có trải nghiệm tốt nhất',
-                            style: TextStyle(
+                          child: Text(
+                            t.dashboard.tip,
+                            style: const TextStyle(
                               color: Colors.white38,
                               fontSize: 12,
                             ),

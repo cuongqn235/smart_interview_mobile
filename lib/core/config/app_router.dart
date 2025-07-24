@@ -3,8 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:smart_interview/presentation/auth/view/login_screen.dart';
 import 'package:smart_interview/presentation/chatting/view/chatting_screen.dart';
 import 'package:smart_interview/presentation/dashboard/view/dashboard_screen.dart';
-import 'package:smart_interview/presentation/interview/view/widgets/interview_screen.dart';
-import 'package:smart_interview/presentation/interview/view/widgets/success_screen.dart';
+import 'package:smart_interview/presentation/interview/interview_screen.dart';
 import 'package:smart_interview/presentation/splash/view/splash_screen.dart';
 import 'package:smart_interview/presentation/welcome/view/welcome_screen.dart';
 
@@ -34,18 +33,21 @@ final GoRouter appRouter = GoRouter(
           parentNavigatorKey: _rootNavigatorKey,
           builder: (context, state) => const ChattingScreen(),
         ),
+        // GoRoute(
+        //   path: 'interview',
+        //   name: 'interview',
+        //   parentNavigatorKey: _rootNavigatorKey,
+        //   builder: (context, state) => const InterviewScreen(
+        //     position: 'Software Engineer',
+        //   ),
+        // ),
         GoRoute(
-          path: 'interview',
+          path: 'interview/:position',
           name: 'interview',
           parentNavigatorKey: _rootNavigatorKey,
-          builder: (context, state) => const InterviewScreen(),
-        ),
-        GoRoute(
-          path: 'interview-generated/:position',
-          name: 'interview-generated',
-          parentNavigatorKey: _rootNavigatorKey,
-          builder: (context, state) => InterViewGeneratedScreen(
+          builder: (context, state) => InterviewScreen(
             position: state.pathParameters['position'] ?? '',
+            language: state.uri.queryParameters['language'] ?? '',
           ),
         ),
       ],

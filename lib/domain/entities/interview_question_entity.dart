@@ -1,18 +1,17 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 import 'user_answer_entity.dart';
 
-class InterviewQuestionEntity {
-  final int id;
-  final String questionText;
-  final String questionType;
-  final int orderIndex;
-  final Map<String, dynamic> aiTags;
-  final UserAnswerEntity? answer;
-  InterviewQuestionEntity({
-    required this.id,
-    required this.questionText,
-    required this.questionType,
-    required this.orderIndex,
-    required this.aiTags,
-    this.answer,
-  });
+part 'interview_question_entity.freezed.dart';
+
+@freezed
+sealed class InterviewQuestionEntity with _$InterviewQuestionEntity {
+  const factory InterviewQuestionEntity({
+    required int id,
+    required String questionText,
+    required String questionType,
+    required int orderIndex,
+    required List<String> aiTags,
+    UserAnswerEntity? answer,
+  }) = _InterviewQuestionEntity;
 }

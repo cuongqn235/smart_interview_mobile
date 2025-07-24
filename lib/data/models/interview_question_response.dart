@@ -11,7 +11,7 @@ class InterviewQuestionResponse {
   final String questionText;
   final String questionType;
   final int orderIndex;
-  final Map<String, dynamic> aiTags;
+  final List<String>? aiTags;
   final UserAnswerResponse? answer;
   InterviewQuestionResponse({
     required this.id,
@@ -29,7 +29,7 @@ class InterviewQuestionResponse {
         questionText: questionText,
         questionType: questionType,
         orderIndex: orderIndex,
-        aiTags: aiTags,
+        aiTags: aiTags ?? [],
         answer: answer?.toEntity(),
       );
 }

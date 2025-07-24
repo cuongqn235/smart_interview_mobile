@@ -2,17 +2,17 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:smart_interview/core/config/app_router.dart';
 import 'package:smart_interview/core/config/app_theme.dart';
+import 'package:smart_interview/core/di/injectable.dart';
 import 'package:smart_interview/firebase_options_dev.dart' as dev;
 import 'package:smart_interview/firebase_options_prod.dart' as prod;
+import 'package:smart_interview/i18n/strings.g.dart';
 import 'package:smart_interview/presentation/auth/bloc/auth_bloc.dart';
-
-import 'core/di/injectable.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   switch (String.fromEnvironment('ENV')) {
     case 'dev':
       await Firebase.initializeApp(
@@ -29,8 +29,11 @@ void main() async {
   }
 
   await configureDependencies();
-
-  runApp(const MyApp());
+  runApp(
+    TranslationProvider(
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -43,10 +46,13 @@ class MyApp extends StatelessWidget {
       child: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: MaterialApp.router(
-          title: 'AI Interview Coach',
+          title: 'Smart Interview',
           debugShowCheckedModeBanner: false,
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
+          locale: TranslationProvider.of(context).flutterLocale,
+          supportedLocales: AppLocaleUtils.supportedLocales,
+          localizationsDelegates: GlobalMaterialLocalizations.delegates,
           routerConfig: appRouter,
         ),
       ),

@@ -9,9 +9,9 @@ part 'user_answer_response.g.dart';
 class UserAnswerResponse {
   final int id;
   final String answerText;
-  final String audioUrl;
-  final int speechSpeedWpm;
-  final int fillerWordsCount;
+  final String? audioUrl;
+  final int? speechSpeedWpm;
+  final int? fillerWordsCount;
   final AiFeedbackResponse? feedback;
   UserAnswerResponse({
     required this.id,

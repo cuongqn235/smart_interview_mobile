@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_interview/core/config/app_router.dart';
+import 'package:smart_interview/i18n/strings.g.dart';
 import 'package:smart_interview/presentation/auth/bloc/auth_bloc.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -73,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           const SizedBox(height: 28),
                           Text(
-                            'AI Interview Coach',
+                            t.login.title,
                             textAlign: TextAlign.center,
                             style: textTheme.headlineMedium?.copyWith(
                               fontWeight: FontWeight.bold,
@@ -82,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           const SizedBox(height: 10),
                           Text(
-                            'Nâng tầm sự nghiệp của bạn qua từng buổi phỏng vấn.',
+                            t.login.subtitle,
                             textAlign: TextAlign.center,
                             style: textTheme.titleMedium?.copyWith(
                               color: colorScheme.onSurface.withOpacity(0.7),
@@ -91,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           const SizedBox(height: 32),
                           if (isIos)
                             _SocialLoginButton(
-                              label: 'Tiếp tục với Apple',
+                              label: t.login.appleButton,
                               icon:
                                   const Icon(Icons.apple, color: Colors.white),
                               backgroundColor: Colors.black,
@@ -104,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             )
                           else
                             _SocialLoginButton(
-                              label: 'Tiếp tục với Google',
+                              label: t.login.googleButton,
                               icon: const Icon(Icons.g_mobiledata,
                                   color: Colors.black87),
                               backgroundColor: Colors.white,
@@ -117,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           const SizedBox(height: 18),
                           Text(
-                            'Bằng cách tiếp tục, bạn đồng ý với Điều khoản & Điều kiện của chúng tôi.',
+                            t.login.terms,
                             textAlign: TextAlign.center,
                             style: textTheme.bodySmall
                                 ?.copyWith(color: Colors.grey.shade600),

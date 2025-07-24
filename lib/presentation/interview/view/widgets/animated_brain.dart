@@ -18,8 +18,8 @@ class _AnimatedBrainState extends State<AnimatedBrain>
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 128,
-      height: 128,
+      width: 100,
+      height: 100,
       child: Stack(
         alignment: Alignment.center,
         children: [
@@ -34,8 +34,8 @@ class _AnimatedBrainState extends State<AnimatedBrain>
                   Transform.scale(
                     scale: 1 + (_pulseController.value * 0.3),
                     child: Container(
-                      width: 128,
-                      height: 128,
+                      width: 100,
+                      height: 100,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(
@@ -50,8 +50,8 @@ class _AnimatedBrainState extends State<AnimatedBrain>
                   Transform.scale(
                     scale: 1 + ((_pulseController.value + 0.5) % 1.0 * 0.5),
                     child: Container(
-                      width: 128,
-                      height: 128,
+                      width: 100,
+                      height: 100,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(
@@ -113,8 +113,8 @@ class _AnimatedBrainState extends State<AnimatedBrain>
               return Transform.rotate(
                 angle: _rotationController.value * 2 * math.pi,
                 child: Container(
-                  width: 128,
-                  height: 128,
+                  width: 100,
+                  height: 100,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     gradient: const LinearGradient(
