@@ -12,7 +12,20 @@
           "package_name": "com.ntc.smartInterview"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "531765551090-nc9ohohaaj3v90lpu9c6vubu3sqmhikc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ntc.smartInterview",
+            "certificate_hash": "f264b052293299604621a04084db9810bc415f7f"
+          }
+        },
+        {
+          "client_id": "531765551090-jbk8u84o5p2ijvgivql6jh3imnjc0aaq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCtFeous5u4pMXUHilRisOcx94I43NLlB8"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "531765551090-jbk8u84o5p2ijvgivql6jh3imnjc0aaq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "531765551090-hgau9d8sfll8r94v3ibho4a9bok5hmks.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.smartInterview"
+              }
+            }
+          ]
         }
       }
     }

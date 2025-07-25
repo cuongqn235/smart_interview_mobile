@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "140625559832-e1u1b1tbcdjsqsg040oq7j6bqr8q8h2s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ntc.smartInterview.dev",
+            "certificate_hash": "f264b052293299604621a04084db9810bc415f7f"
+          }
+        },
+        {
           "client_id": "140625559832-253pu470m2h61j156a3429ds7sbnu39v.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,6 +37,13 @@
             {
               "client_id": "140625559832-253pu470m2h61j156a3429ds7sbnu39v.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "140625559832-0m0u0t12muaks5in2tbk2dmjq2k2vtj7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ntc.smartInterview.dev"
+              }
             }
           ]
         }
