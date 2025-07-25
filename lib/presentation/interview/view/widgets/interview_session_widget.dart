@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
+import 'package:smart_interview/core/components/dimens_widget.dart';
 import 'package:smart_interview/i18n/strings.g.dart';
 import 'package:smart_interview/presentation/interview/bloc/interview_bloc.dart';
 import 'package:smart_interview/presentation/interview/view/widgets/interview_question_widget.dart';
 
-class InterviewWidget extends StatefulWidget {
-  const InterviewWidget({super.key});
+class InterviewSessionWidget extends StatefulWidget {
+  const InterviewSessionWidget({super.key});
 
   @override
-  State<InterviewWidget> createState() => _InterviewWidgetState();
+  State<InterviewSessionWidget> createState() => _InterviewSessionWidgetState();
 }
 
-class _InterviewWidgetState extends State<InterviewWidget> {
+class _InterviewSessionWidgetState extends State<InterviewSessionWidget> {
   final PageController _pageController = PageController();
   int _currentIndex = 0;
 
@@ -110,11 +112,11 @@ class _InterviewWidgetState extends State<InterviewWidget> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  dimen8,
                 ],
                 Icon(icon, color: Colors.white, size: 20),
                 if (!isPrimary) ...[
-                  const SizedBox(width: 8),
+                  dimen8,
                   Text(
                     text,
                     style: const TextStyle(
@@ -148,7 +150,7 @@ class _InterviewWidgetState extends State<InterviewWidget> {
             icon: Icons.arrow_back,
           )
         else
-          const SizedBox(width: 120), // Placeholder for alignment
+          const Gap(120), // Placeholder for alignment
         _buildNavButton(
           onPressed: () {
             if (_currentIndex < totalQuestions - 1) {

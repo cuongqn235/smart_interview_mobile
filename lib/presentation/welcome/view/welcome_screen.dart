@@ -2,29 +2,37 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_interview/core/components/dimens_widget.dart';
 import 'package:smart_interview/core/config/app_router.dart';
 import 'package:smart_interview/i18n/strings.g.dart';
 import 'package:smart_interview/presentation/auth/bloc/auth_bloc.dart';
 
-class FeatureItem {
+class WelcomeScreen extends StatefulWidget {
+  const WelcomeScreen({super.key});
+
+  @override
+  State<WelcomeScreen> createState() => _WelcomeScreenState();
+}
+
+class _FeatureItem {
   final String text;
   final IconData icon;
 
-  FeatureItem({required this.text, required this.icon});
+  _FeatureItem({required this.text, required this.icon});
 }
 
 // Data Models
-class OnboardingStep {
+class _OnboardingStep {
   final String title;
   final String subtitle;
   final String description;
   final IconData icon;
   final LinearGradient gradient;
   final LinearGradient bgGradient;
-  final List<FeatureItem> features;
+  final List<_FeatureItem> features;
   final Map<String, String> stats;
 
-  OnboardingStep({
+  _OnboardingStep({
     required this.title,
     required this.subtitle,
     required this.description,
@@ -36,13 +44,6 @@ class OnboardingStep {
   });
 }
 
-class WelcomeScreen extends StatefulWidget {
-  const WelcomeScreen({super.key});
-
-  @override
-  State<WelcomeScreen> createState() => _WelcomeScreenState();
-}
-
 class _WelcomeScreenState extends State<WelcomeScreen>
     with TickerProviderStateMixin {
   int currentStep = 0;
@@ -50,8 +51,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   late AnimationController _backgroundController;
   late Animation<double> _slideAnimation;
 
-  List<OnboardingStep> get steps => [
-        OnboardingStep(
+  List<_OnboardingStep> get steps => [
+        _OnboardingStep(
           title: t.welcome.step1.title,
           subtitle: t.welcome.step1.subtitle,
           description: t.welcome.step1.description,
@@ -61,16 +62,16 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           bgGradient: const LinearGradient(
               colors: [Color(0xFFEFF6FF), Color(0xFFE0E7FF)]),
           features: [
-            FeatureItem(
+            _FeatureItem(
                 text: t.welcome.step1.features[0], icon: Icons.psychology),
-            FeatureItem(
+            _FeatureItem(
                 text: t.welcome.step1.features[1], icon: Icons.track_changes),
-            FeatureItem(
+            _FeatureItem(
                 text: t.welcome.step1.features[2], icon: Icons.work_outline),
           ],
           stats: {'users': '10K+', 'success': '95%', 'questions': '500+'},
         ),
-        OnboardingStep(
+        _OnboardingStep(
           title: t.welcome.step2.title,
           subtitle: t.welcome.step2.subtitle,
           description: t.welcome.step2.description,
@@ -80,14 +81,14 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           bgGradient: const LinearGradient(
               colors: [Color(0xFFFAF5FF), Color(0xFFFDF2F8)]),
           features: [
-            FeatureItem(text: t.welcome.step2.features[0], icon: Icons.star),
-            FeatureItem(text: t.welcome.step2.features[1], icon: Icons.groups),
-            FeatureItem(
+            _FeatureItem(text: t.welcome.step2.features[0], icon: Icons.star),
+            _FeatureItem(text: t.welcome.step2.features[1], icon: Icons.groups),
+            _FeatureItem(
                 text: t.welcome.step2.features[2], icon: Icons.trending_up),
           ],
           stats: {'categories': '15+', 'difficulty': '3', 'companies': '100+'},
         ),
-        OnboardingStep(
+        _OnboardingStep(
           title: t.welcome.step3.title,
           subtitle: t.welcome.step3.subtitle,
           description: t.welcome.step3.description,
@@ -97,16 +98,16 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           bgGradient: const LinearGradient(
               colors: [Color(0xFFECFDF5), Color(0xFFD1FAE5)]),
           features: [
-            FeatureItem(
+            _FeatureItem(
                 text: t.welcome.step3.features[0], icon: Icons.bar_chart),
-            FeatureItem(
+            _FeatureItem(
                 text: t.welcome.step3.features[1], icon: Icons.emoji_events),
-            FeatureItem(
+            _FeatureItem(
                 text: t.welcome.step3.features[2], icon: Icons.trending_up),
           ],
           stats: {'accuracy': '98%', 'insights': '50+', 'tracking': '24/7'},
         ),
-        OnboardingStep(
+        _OnboardingStep(
           title: t.welcome.step4.title,
           subtitle: t.welcome.step4.subtitle,
           description: t.welcome.step4.description,
@@ -116,9 +117,9 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           bgGradient: const LinearGradient(
               colors: [Color(0xFFFFF7ED), Color(0xFFFEF2F2)]),
           features: [
-            FeatureItem(text: t.welcome.step4.features[0], icon: Icons.mic),
-            FeatureItem(text: t.welcome.step4.features[1], icon: Icons.edit),
-            FeatureItem(
+            _FeatureItem(text: t.welcome.step4.features[0], icon: Icons.mic),
+            _FeatureItem(text: t.welcome.step4.features[1], icon: Icons.edit),
+            _FeatureItem(
                 text: t.welcome.step4.features[2], icon: Icons.auto_awesome),
           ],
           stats: {'modes': '2', 'quality': 'HD', 'support': '24/7'},
@@ -153,7 +154,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   children: [
                     // Header with Progress
                     _buildHeader(),
-                    const SizedBox(height: 16),
+                    dimen16,
                     // Main Content
                     Expanded(
                       child: AnimatedBuilder(
@@ -288,7 +289,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     );
   }
 
-  Widget _buildFeaturesCard(OnboardingStep step) {
+  Widget _buildFeaturesCard(_OnboardingStep step) {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
@@ -320,7 +321,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                     size: 20,
                   ),
                 ),
-                const SizedBox(width: 16),
+                dimen16,
                 Expanded(
                   child: Text(
                     feature.text,
@@ -397,7 +398,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     );
   }
 
-  Widget _buildIconSection(OnboardingStep step) {
+  Widget _buildIconSection(_OnboardingStep step) {
     return Stack(
       clipBehavior: Clip.none,
       alignment: Alignment.center,
@@ -487,7 +488,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     );
   }
 
-  Widget _buildStatsSection(OnboardingStep step) {
+  Widget _buildStatsSection(_OnboardingStep step) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -510,7 +511,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   ),
                 ),
               ),
-              const SizedBox(height: 4),
+              dimen4,
               Text(
                 _getStatLabel(entry.key),
                 style: const TextStyle(
@@ -525,24 +526,24 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     );
   }
 
-  Widget _buildStepContent(OnboardingStep step) {
+  Widget _buildStepContent(_OnboardingStep step) {
     return ListView(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16),
       children: [
         // Icon Section
         _buildIconSection(step),
 
-        const SizedBox(height: 32),
+        dimen32,
 
         // Text Content
         _buildTextContent(step),
 
-        const SizedBox(height: 32),
+        dimen32,
 
         // Features Card
         _buildFeaturesCard(step),
 
-        const SizedBox(height: 24),
+        dimen24,
 
         // Stats Section
         _buildStatsSection(step),
@@ -550,7 +551,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     );
   }
 
-  Widget _buildTextContent(OnboardingStep step) {
+  Widget _buildTextContent(_OnboardingStep step) {
     return Column(
       children: [
         Text(
@@ -563,7 +564,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 12),
+        dimen16,
         ShaderMask(
           shaderCallback: (bounds) => step.gradient.createShader(bounds),
           child: Text(
@@ -576,7 +577,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             textAlign: TextAlign.center,
           ),
         ),
-        const SizedBox(height: 16),
+        dimen16,
         Text(
           step.description,
           style: const TextStyle(

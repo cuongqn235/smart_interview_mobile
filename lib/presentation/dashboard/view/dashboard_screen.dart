@@ -1,10 +1,14 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:smart_interview/domain/entities/user_info_entity.dart';
 import 'package:smart_interview/i18n/strings.g.dart';
+import 'package:smart_interview/presentation/auth/bloc/auth_bloc.dart';
 import 'package:smart_interview/presentation/chatting/view/widgets/animated_background.dart';
 import 'package:smart_interview/presentation/dashboard/models/activity.dart';
 import 'package:smart_interview/presentation/dashboard/models/feature.dart';
@@ -137,77 +141,85 @@ class _DashboardScreenState extends State<DashboardScreen>
                               ),
                             ),
                           ),
-                          child: Row(
-                            children: [
-                              // Animated brain icon
-                              AnimatedBuilder(
-                                animation: _brainRotationAnimation,
-                                builder: (context, child) {
-                                  return Transform.rotate(
-                                    angle: _brainRotationAnimation.value,
-                                    child: Container(
-                                      width: 48,
-                                      height: 48,
-                                      decoration: BoxDecoration(
-                                        gradient: const LinearGradient(
-                                          colors: [Colors.purple, Colors.blue],
+                          child:
+                              BlocSelector<AuthBloc, AuthState, UserInfoEntity>(
+                            selector: (state) {
+                              return state.userInfo;
+                            },
+                            builder: (context, userInfo) {
+                              return Row(
+                                children: [
+                                  // Animated brain icon
+                                  AnimatedBuilder(
+                                    animation: _brainRotationAnimation,
+                                    builder: (context, child) {
+                                      return Transform.rotate(
+                                        angle: _brainRotationAnimation.value,
+                                        child: CachedNetworkImage(
+                                          imageUrl: userInfo.avatar ?? '',
+                                          width: 48,
+                                          height: 48,
+                                          errorWidget: (context, url, error) =>
+                                              Container(
+                                            width: 48,
+                                            height: 48,
+                                            decoration: BoxDecoration(
+                                              gradient: const LinearGradient(
+                                                colors: [
+                                                  Colors.purple,
+                                                  Colors.blue
+                                                ],
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(24),
+                                            ),
+                                            child: const Icon(
+                                              Icons.psychology,
+                                              color: Colors.white,
+                                              size: 24,
+                                            ),
+                                          ),
                                         ),
-                                        borderRadius: BorderRadius.circular(24),
-                                      ),
-                                      child: const Icon(
-                                        Icons.psychology,
-                                        color: Colors.white,
-                                        size: 24,
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      t.dashboard.header.title,
+                                      );
+                                    },
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: Text(
+                                      'Xin chào,\n${userInfo.name}',
                                       style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: 20,
+                                        fontSize: 16,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    Text(
-                                      t.dashboard.header.subtitle,
-                                      style: TextStyle(
-                                        color: Colors.white70,
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              // Language toggle
-                              Row(
-                                children: [
-                                  const Text('VI',
-                                      style: TextStyle(color: Colors.white)),
-                                  Switch(
-                                    value: LocaleSettings.currentLocale ==
-                                        AppLocale.en,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        LocaleSettings.setLocale(value
-                                            ? AppLocale.en
-                                            : AppLocale.vi);
-                                      });
-                                    },
-                                    activeColor: Colors.purple,
                                   ),
-                                  const Text('EN',
-                                      style: TextStyle(color: Colors.white)),
+                                  // Language toggle
+                                  Row(
+                                    children: [
+                                      const Text('VI',
+                                          style:
+                                              TextStyle(color: Colors.white)),
+                                      Switch(
+                                        value: LocaleSettings.currentLocale ==
+                                            AppLocale.en,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            LocaleSettings.setLocale(value
+                                                ? AppLocale.en
+                                                : AppLocale.vi);
+                                          });
+                                        },
+                                        activeColor: Colors.purple,
+                                      ),
+                                      const Text('EN',
+                                          style:
+                                              TextStyle(color: Colors.white)),
+                                    ],
+                                  ),
                                 ],
-                              ),
-                            ],
+                              );
+                            },
                           ),
                         ),
                       );

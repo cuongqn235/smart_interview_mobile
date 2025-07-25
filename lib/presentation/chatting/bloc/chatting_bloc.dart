@@ -12,15 +12,8 @@ part 'chatting_state.dart';
 class ChattingBloc extends Bloc<ChattingEvent, ChattingState> {
   final ChattingRepo _chattingRepo;
 
-  ChattingBloc(this._chattingRepo)
-      : super(ChattingState(messages: [
-          MessageEntity.message(
-            content:
-                'Chào bạn! Tôi là AI Interview Coach. Hãy cho tôi biết vị trí công việc bạn muốn phỏng vấn nhé! 🚀',
-            sender: MessageSender.assistant,
-            timestamp: DateTime.now(),
-          )
-        ])) {
+  ChattingBloc(this._chattingRepo, {@factoryParam String? languageCode})
+      : super(ChattingState(languageCode: languageCode)) {
     on<_SendMessage>((event, emit) async {
       try {
         final newMessages = [
@@ -32,9 +25,24 @@ class ChattingBloc extends Bloc<ChattingEvent, ChattingState> {
           ),
         ];
         emit(state.copyWith(messages: newMessages, isTyping: true));
-        final message = await _chattingRepo.sendMessage(newMessages);
+        final message = await _chattingRepo.sendMessage(newMessages,
+            languageCode: state.languageCode);
         emit(state.copyWith(
           messages: [...state.messages, message],
+          isTyping: false,
+        ));
+      } catch (e) {
+        emit(state.copyWith(isTyping: false));
+      }
+    });
+
+    on<_OnStart>((event, emit) async {
+      try {
+        emit(state.copyWith(isTyping: true));
+        final message = await _chattingRepo
+            .sendMessage([], languageCode: state.languageCode);
+        emit(state.copyWith(
+          messages: [message],
           isTyping: false,
         ));
       } catch (e) {

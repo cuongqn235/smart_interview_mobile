@@ -16,5 +16,6 @@ abstract class ChattingRemoteDataSource {
 
   @POST('/chat/message')
   Future<BaseResponse<MessageReponse>> sendMessage(
-      @Body() List<MessageRequest> request);
+      @Body() List<MessageRequest> request,
+      @Query('language_code') String? languageCode);
 }

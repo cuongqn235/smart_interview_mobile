@@ -12,9 +12,11 @@ class ChattingRepoImpl implements ChattingRepo {
   ChattingRepoImpl(this._chattingRemoteDataSource);
 
   @override
-  Future<MessageEntity> sendMessage(List<MessageEntity> messages) async {
+  Future<MessageEntity> sendMessage(List<MessageEntity> messages,
+      {String? languageCode}) async {
     final response = await _chattingRemoteDataSource.sendMessage(
       messages.map(MessageRequest.fromEntity).toList(),
+      languageCode,
     );
     return response.onResult(
       (data) => data.toEntity(),

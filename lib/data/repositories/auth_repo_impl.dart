@@ -50,8 +50,8 @@ class AuthRepoImpl implements AuthRepo {
   }
 
   @override
-  Future<void> logout() {
-    // TODO: implement logout
-    throw UnimplementedError();
+  Future<void> logout() async {
+    await _googleAuthRemoteDataSource.signOut();
+    await _appRepo.clearAccessToken();
   }
 }

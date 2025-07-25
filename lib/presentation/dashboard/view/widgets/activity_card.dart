@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_interview/core/components/dimens_widget.dart';
 import 'package:smart_interview/presentation/dashboard/models/activity.dart';
 
 class ActivityCard extends StatelessWidget {
@@ -39,7 +40,7 @@ class ActivityCard extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: 8),
+          dimen8,
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

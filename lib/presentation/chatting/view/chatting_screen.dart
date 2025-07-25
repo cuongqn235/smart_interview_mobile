@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_interview/core/di/injectable.dart';
 import 'package:smart_interview/domain/entities/message_entity.dart';
+import 'package:smart_interview/i18n/strings.g.dart';
 import 'package:smart_interview/presentation/chatting/bloc/chatting_bloc.dart';
 
 import 'widgets/animated_background.dart';
@@ -286,7 +287,9 @@ class _ChattingScreenState extends State<ChattingScreen>
   @override
   void initState() {
     super.initState();
-    _chattingBloc = getIt<ChattingBloc>();
+    _chattingBloc =
+        getIt<ChattingBloc>(param1: LocaleSettings.currentLocale.languageCode)
+          ..add(ChattingEvent.onStart());
     _initializeAnimations();
   }
 

@@ -31,6 +31,7 @@ presentation/ // UI + Bloc/Cubit
 - interceptors → auth_interceptors.dart, log, retry, v.v.
 - models/status.dart → Enum & Freezed extension
 - ultis/ → helpers thuần tuý (exception mapper, date ext…)
+- components/dimens_widget.dart → Khoảng cách các widget dùng trong này
 
 ### 2.2 domain/
 
@@ -126,5 +127,6 @@ Mapping: DTO ↔ Entity chỉ ở _data-layer_
 
 > **presentation → domain → data** (một chiều).  
 > Không import ngược; vi phạm → fail-CI
+> Tất cả lệnh dart hay flutter thì dùng fvm
 
 ---

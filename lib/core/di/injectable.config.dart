@@ -104,8 +104,14 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i1005.InterviewBloc(gh<_i466.InterviewSessionRepository>()));
     gh.lazySingleton<_i16.ChattingRepo>(
         () => _i669.ChattingRepoImpl(gh<_i925.ChattingRemoteDataSource>()));
-    gh.factory<_i352.ChattingBloc>(
-        () => _i352.ChattingBloc(gh<_i16.ChattingRepo>()));
+    gh.factoryParam<_i352.ChattingBloc, String?, dynamic>((
+      languageCode,
+      _,
+    ) =>
+        _i352.ChattingBloc(
+          gh<_i16.ChattingRepo>(),
+          languageCode: languageCode,
+        ));
     return this;
   }
 }

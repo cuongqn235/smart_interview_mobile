@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_interview/core/components/dimens_widget.dart';
 import 'package:smart_interview/domain/entities/interview_question_entity.dart';
 import 'package:smart_interview/i18n/strings.g.dart';
 import 'package:smart_interview/presentation/interview/bloc/interview_bloc.dart';
@@ -71,7 +72,7 @@ class _InterviewQuestionWidgetState extends State<InterviewQuestionWidget>
                         ),
                       ),
                     ),
-                    const SizedBox(height: 32),
+                    dimen48,
                     Text(
                       widget.question.questionText,
                       textAlign: TextAlign.center,
@@ -88,7 +89,7 @@ class _InterviewQuestionWidgetState extends State<InterviewQuestionWidget>
                         ],
                       ),
                     ),
-                    const SizedBox(height: 48),
+                    dimen48,
                     Container(
                       width: double.infinity,
                       constraints: const BoxConstraints(minHeight: 150),
@@ -110,9 +111,9 @@ class _InterviewQuestionWidgetState extends State<InterviewQuestionWidget>
                         ),
                       ),
                     ),
-                    const SizedBox(height: 32),
+                    dimen32,
                     _buildMicButton(),
-                    const SizedBox(height: 32),
+                    dimen32,
                   ],
                 ),
               ),

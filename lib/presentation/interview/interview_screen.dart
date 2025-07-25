@@ -6,7 +6,7 @@ import 'package:smart_interview/presentation/interview/bloc/interview_bloc.dart'
 import 'view/widgets/feedback_widget.dart';
 import 'view/widgets/generated_interview_widget.dart';
 import 'view/widgets/generating_interview_widget.dart';
-import 'view/widgets/interview_widget.dart';
+import 'view/widgets/interview_session_widget.dart';
 
 class InterviewScreen extends StatefulWidget {
   final String position;
@@ -34,7 +34,7 @@ class _InterviewScreenState extends State<InterviewScreen> {
               InterviewStatus.generated => GeneratedInterviewWidget(
                   position: widget.position,
                 ),
-              InterviewStatus.interview => const InterviewWidget(),
+              InterviewStatus.interview => const InterviewSessionWidget(),
               InterviewStatus.feedback => const FeedbackWidget(),
             };
           },

@@ -10,9 +10,19 @@ class AppRepoImpl implements AppRepo {
   AppRepoImpl(this._sharedPreferences, this._flutterSecureStorage);
 
   @override
+  Future<void> clearAccessToken() async {
+    await _flutterSecureStorage.delete(key: 'access_token');
+  }
+
+  @override
   Future<String?> getAccessToken() async {
     return await _flutterSecureStorage.read(key: 'access_token');
   }
+
+  // @override
+  // Future<String?> getLanguageCode() async {
+  //   return _sharedPreferences.getString('language_code');
+  // }
 
   @override
   Future<bool> isFirstLaunch() async {
@@ -28,4 +38,9 @@ class AppRepoImpl implements AppRepo {
   Future<void> setFirstLaunch(bool isFirstLaunch) async {
     await _sharedPreferences.setBool('isFirstLaunch', isFirstLaunch);
   }
+
+  // @override
+  // Future<void> setLanguageCode(String languageCode) async {
+  //   await _sharedPreferences.setString('language_code', languageCode);
+  // }
 }

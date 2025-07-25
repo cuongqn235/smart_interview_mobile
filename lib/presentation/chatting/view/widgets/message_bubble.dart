@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:smart_interview/core/components/dimens_widget.dart';
 import 'package:smart_interview/domain/entities/message_entity.dart';
 
 class MessageBubble extends StatefulWidget {
@@ -56,7 +57,7 @@ class _MessageBubbleState extends State<MessageBubble>
                         size: 16,
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    dimen8,
                   ],
 
                   // Message bubble

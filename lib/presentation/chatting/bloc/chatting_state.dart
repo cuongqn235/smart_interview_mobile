@@ -6,5 +6,6 @@ sealed class ChattingState with _$ChattingState {
     @Default([]) List<MessageEntity> messages,
     @Default(false) bool isTyping,
     @Default(0) int currentStep,
+    String? languageCode,
   }) = _ChattingState;
 }
