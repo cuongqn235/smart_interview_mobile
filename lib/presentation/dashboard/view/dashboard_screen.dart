@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math' as math;
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -28,10 +27,8 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen>
     with TickerProviderStateMixin {
   late AnimationController _headerAnimationController;
-  late AnimationController _brainRotationController;
   late AnimationController _shimmerController;
   late Animation<double> _headerSlideAnimation;
-  late Animation<double> _brainRotationAnimation;
   late Animation<double> _shimmerAnimation;
 
   int _currentMessageIndex = 0;
@@ -149,39 +146,26 @@ class _DashboardScreenState extends State<DashboardScreen>
                             builder: (context, userInfo) {
                               return Row(
                                 children: [
-                                  // Animated brain icon
-                                  AnimatedBuilder(
-                                    animation: _brainRotationAnimation,
-                                    builder: (context, child) {
-                                      return Transform.rotate(
-                                        angle: _brainRotationAnimation.value,
-                                        child: CachedNetworkImage(
-                                          imageUrl: userInfo.avatar ?? '',
-                                          width: 48,
-                                          height: 48,
-                                          errorWidget: (context, url, error) =>
-                                              Container(
-                                            width: 48,
-                                            height: 48,
-                                            decoration: BoxDecoration(
-                                              gradient: const LinearGradient(
-                                                colors: [
-                                                  Colors.purple,
-                                                  Colors.blue
-                                                ],
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(24),
-                                            ),
-                                            child: const Icon(
-                                              Icons.psychology,
-                                              color: Colors.white,
-                                              size: 24,
-                                            ),
-                                          ),
+                                  CachedNetworkImage(
+                                    imageUrl: userInfo.avatar ?? '',
+                                    width: 48,
+                                    height: 48,
+                                    errorWidget: (context, url, error) =>
+                                        Container(
+                                      width: 48,
+                                      height: 48,
+                                      decoration: BoxDecoration(
+                                        gradient: const LinearGradient(
+                                          colors: [Colors.purple, Colors.blue],
                                         ),
-                                      );
-                                    },
+                                        borderRadius: BorderRadius.circular(24),
+                                      ),
+                                      child: const Icon(
+                                        Icons.psychology,
+                                        color: Colors.white,
+                                        size: 24,
+                                      ),
+                                    ),
                                   ),
                                   const SizedBox(width: 12),
                                   Expanded(
@@ -604,7 +588,6 @@ class _DashboardScreenState extends State<DashboardScreen>
   @override
   void dispose() {
     _headerAnimationController.dispose();
-    _brainRotationController.dispose();
     _shimmerController.dispose();
     _messageTimer?.cancel();
     super.dispose();
@@ -623,11 +606,6 @@ class _DashboardScreenState extends State<DashboardScreen>
       vsync: this,
     );
 
-    _brainRotationController = AnimationController(
-      duration: const Duration(seconds: 3),
-      vsync: this,
-    );
-
     _shimmerController = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
@@ -641,14 +619,6 @@ class _DashboardScreenState extends State<DashboardScreen>
       curve: Curves.elasticOut,
     ));
 
-    _brainRotationAnimation = Tween<double>(
-      begin: 0.0,
-      end: 2 * math.pi,
-    ).animate(CurvedAnimation(
-      parent: _brainRotationController,
-      curve: Curves.linear,
-    ));
-
     _shimmerAnimation = Tween<double>(
       begin: -1.0,
       end: 1.0,
@@ -658,7 +628,6 @@ class _DashboardScreenState extends State<DashboardScreen>
     ));
 
     _headerAnimationController.forward();
-    _brainRotationController.repeat();
     _shimmerController.repeat(reverse: true);
   }
 

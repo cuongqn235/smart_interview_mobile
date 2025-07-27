@@ -51,3 +51,6 @@ android/app/.cxx/
 *.env
 android/app/dev/
 android/app/prod/
+
+# FVM Version Cache
+.fvm/
