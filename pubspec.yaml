@@ -56,6 +56,9 @@ dependencies:
   intl: ^0.19.0
   collection: ^1.19.1
   gap: ^3.0.1
+  loader_overlay: ^5.0.0
+  flutter_gen: ^5.11.0
+  lottie: ^3.3.1
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +71,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
   build_runner: ^2.5.4
+  flutter_gen_runner:
   freezed: ^3.1.0
   injectable_generator: ^2.7.0
   retrofit_generator: ^9.7.0
@@ -76,7 +80,20 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+flutter_gen:
+  output: lib/gen/ # Optional (default: lib/gen/)
+  # line_length: 80 # Optional
 
+  # Optional
+  integrations:
+    image: true
+    flutter_svg: true
+    rive: false
+    lottie: true
+
+  # colors:
+  #   inputs:
+  #     - assets/color/colors.xml
 # The following section is specific to Flutter packages.
 flutter:
   # The following line ensures that the Material Icons font is
@@ -88,6 +105,7 @@ flutter:
   assets:
     - dev.env
     - prod.env
+    - assets/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

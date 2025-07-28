@@ -21,6 +21,7 @@ class InterviewBloc extends Bloc<InterviewEvent, InterviewState> {
     on<_Started>((event, emit) async {
       emit(state.copyWith(interviewStatus: InterviewStatus.generating));
       try {
+        emit(state.copyWith(status: Status.loading()));
         final interviewSession =
             await _interviewSessionRepo.createInterviewSession(
           positionDescription: event.position,
@@ -36,6 +37,8 @@ class InterviewBloc extends Bloc<InterviewEvent, InterviewState> {
         ));
       } catch (e) {
         emit(state.copyWith(status: Status.error(error: e)));
+      } finally {
+        emit(state.copyWith(status: Status.idle()));
       }
     });
 
@@ -50,7 +53,8 @@ class InterviewBloc extends Bloc<InterviewEvent, InterviewState> {
     });
 
     on<_AnswerChanged>((event, emit) {
-      final questions = state.interviewSession?.questions ?? [];
+      final questions = List<InterviewQuestionEntity>.from(
+          state.interviewSession?.questions ?? []);
       final question = questions.firstWhere((e) => e.id == event.questionId);
       InterviewQuestionEntity? newQuestion;
       if (question.answer == null) {
@@ -60,11 +64,15 @@ class InterviewBloc extends Bloc<InterviewEvent, InterviewState> {
         newQuestion = question.copyWith(
             answer: question.answer!.copyWith(answerText: event.answer));
       }
+      final index = questions.indexWhere((e) => e.id == event.questionId);
+      if (index != -1) {
+        questions[index] = newQuestion;
+      } else {
+        questions.add(newQuestion);
+      }
       emit(state.copyWith(
-          interviewSession: state.interviewSession?.copyWith(
-              questions: List.of(questions)
-                ..removeWhere((e) => e.id == event.questionId)
-                ..add(newQuestion))));
+          interviewSession:
+              state.interviewSession?.copyWith(questions: questions)));
     });
 
     on<_FeedbackRequested>((event, emit) async {

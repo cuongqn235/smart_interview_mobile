@@ -217,21 +217,31 @@ class _InterviewQuestionWidgetState extends State<InterviewQuestionWidget>
       if (available) {
         setState(() => _isListening = true);
         _listeningAnimationController.repeat(reverse: true);
-        _speech.listen(
+        await _speech.listen(
           localeId: LocaleSettings.currentLocale.languageCode,
           onResult: (val) => setState(() {
             _text = val.recognizedWords;
-            context.read<InterviewBloc>().add(
-                  InterviewEvent.answerChanged(
-                    questionId: widget.question.id,
-                    answer: _text,
-                  ),
-                );
+            // context.read<InterviewBloc>().add(
+            //       InterviewEvent.answerChanged(
+            //         questionId: widget.question.id,
+            //         // answer: _text,
+            //         answer: 'test$widget.question.id',
+            //       ),
+            //     );
             // if (val.hasConfidenceRating && val.confidence > 0) {
             //   _confidence = val.confidence;
             // }
           }),
         );
+        if (context.mounted) {
+          context.read<InterviewBloc>().add(
+                InterviewEvent.answerChanged(
+                  questionId: widget.question.id,
+                  // answer: _text,
+                  answer: 'test${widget.question.id}',
+                ),
+              );
+        }
       }
     } else {
       setState(() => _isListening = false);
