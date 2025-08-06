@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_interview/core/config/app_router.dart';
+import 'package:smart_interview/core/theme/colors.dart';
 import 'package:smart_interview/presentation/auth/bloc/auth_bloc.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -43,15 +44,7 @@ class _SplashScreenState extends State<SplashScreen>
           height: MediaQuery.sizeOf(context).height,
           width: MediaQuery.sizeOf(context).width,
           decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Color(0xFF312E81), // indigo-900
-                Color(0xFF581C87), // purple-900
-                Color(0xFF9F1239), // pink-800
-              ],
-            ),
+            gradient: AppColors.splashGradient,
           ),
           child: Stack(
             clipBehavior: Clip.none,
@@ -169,7 +162,7 @@ class _SplashScreenState extends State<SplashScreen>
             colors: [Colors.white, Color(0xFFDDD6FE), Color(0xFFC4B5FD)],
           ).createShader(bounds),
           child: const Text(
-            'InterviewAce',
+            'Smart Interview',
             style: TextStyle(
               fontSize: 40,
               fontWeight: FontWeight.w900,

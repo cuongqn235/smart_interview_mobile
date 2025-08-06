@@ -8,12 +8,12 @@ class MessageReponse {
   final bool done;
   final String message;
   final String? position;
-  final String? language;
+  final String? languageCode;
   MessageReponse({
     required this.done,
     required this.message,
     this.position,
-    this.language,
+    this.languageCode,
   });
 
   factory MessageReponse.fromJson(Map<String, dynamic> json) =>
@@ -30,6 +30,6 @@ class MessageReponse {
           sender: MessageSender.assistant,
           timestamp: DateTime.now(),
           position: position ?? '',
-          language: language ?? '',
+          languageCode: languageCode ?? '',
         );
 }

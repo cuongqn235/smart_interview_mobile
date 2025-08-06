@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:smart_interview/core/theme/colors.dart';
 import 'package:smart_interview/domain/entities/user_info_entity.dart';
 import 'package:smart_interview/i18n/strings.g.dart';
 import 'package:smart_interview/presentation/auth/bloc/auth_bloc.dart';
@@ -45,33 +46,25 @@ class _DashboardScreenState extends State<DashboardScreen>
           icon: Icons.chat_bubble_outline,
           title: t.dashboard.features.chat.title,
           description: t.dashboard.features.chat.description,
-          gradient: const LinearGradient(
-            colors: [Color(0xFF3B82F6), Color(0xFF06B6D4)],
-          ),
+          gradient: AppColors.blueGradient,
         ),
         Feature(
           icon: Icons.mic,
           title: t.dashboard.features.recording.title,
           description: t.dashboard.features.recording.description,
-          gradient: const LinearGradient(
-            colors: [Color(0xFF8B5CF6), Color(0xFFEC4899)],
-          ),
+          gradient: AppColors.purpleGradient,
         ),
         Feature(
           icon: Icons.bar_chart,
           title: t.dashboard.features.analysis.title,
           description: t.dashboard.features.analysis.description,
-          gradient: const LinearGradient(
-            colors: [Color(0xFF10B981), Color(0xFF059669)],
-          ),
+          gradient: AppColors.greenGradient,
         ),
         Feature(
           icon: Icons.emoji_events,
           title: t.dashboard.features.results.title,
           description: t.dashboard.features.results.description,
-          gradient: const LinearGradient(
-            colors: [Color(0xFFF59E0B), Color(0xFFEA580C)],
-          ),
+          gradient: AppColors.orangeGradient,
         ),
       ];
 
@@ -96,15 +89,7 @@ class _DashboardScreenState extends State<DashboardScreen>
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color(0xFF1a1a2e),
-              Color(0xFF16213e),
-              Color(0xFF0f3460),
-            ],
-          ),
+          gradient: AppColors.backgroundGradient,
         ),
         child: Stack(
           children: [
@@ -566,7 +551,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                           child: Text(
                             t.dashboard.tip,
                             style: const TextStyle(
-                              color: Colors.white38,
+                              color: Colors.white,
                               fontSize: 12,
                             ),
                             textAlign: TextAlign.center,

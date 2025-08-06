@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_interview/core/components/dimens_widget.dart';
+import 'package:smart_interview/core/theme/colors.dart';
+import 'package:smart_interview/core/theme/styles.dart';
 import 'package:smart_interview/domain/entities/interview_question_entity.dart';
 import 'package:smart_interview/i18n/strings.g.dart';
 import 'package:smart_interview/presentation/interview/bloc/interview_bloc.dart';
@@ -38,89 +40,82 @@ class _InterviewQuestionWidgetState extends State<InterviewQuestionWidget>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: AnimatedBuilder(
-        animation: _animationController,
-        builder: (context, child) {
-          return FadeTransition(
-            opacity: _fadeAnimation,
-            child: SlideTransition(
-              position: _slideAnimation,
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Text(
-                        t.interview.question(
-                          questionNumber: widget.questionNumber.toString(),
-                          totalQuestions: widget.totalQuestions.toString(),
-                        ),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+    return AnimatedBuilder(
+      animation: _animationController,
+      builder: (context, child) {
+        return FadeTransition(
+          opacity: _fadeAnimation,
+          child: SlideTransition(
+            position: _slideAnimation,
+            child: SingleChildScrollView(
+              physics: const ClampingScrollPhysics(),
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
                     ),
-                    dimen48,
-                    Text(
-                      widget.question.questionText,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        shadows: [
-                          Shadow(
-                            blurRadius: 10.0,
-                            color: Colors.black26,
-                            offset: Offset(2.0, 2.0),
-                          ),
-                        ],
-                      ),
+                    decoration: BoxDecoration(
+                      color: AppColors.white10,
+                      borderRadius: BorderRadius.circular(20),
                     ),
-                    dimen48,
-                    Container(
-                      width: double.infinity,
-                      constraints: const BoxConstraints(minHeight: 150),
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(16),
-                        border:
-                            Border.all(color: Colors.white.withOpacity(0.2)),
+                    child: Text(
+                      t.interview.question(
+                        questionNumber: widget.questionNumber.toString(),
+                        totalQuestions: widget.totalQuestions.toString(),
                       ),
-                      child: Text(
-                        _text,
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          color: Colors.white.withOpacity(0.8),
-                          fontStyle: _text == t.interview.yourAnswer
-                              ? FontStyle.italic
-                              : FontStyle.normal,
+                      style: AppStyles.withColor(
+                          AppStyles.labelLarge, Colors.white),
+                    ),
+                  ),
+                  dimen24,
+                  Text(
+                    widget.question.questionText,
+                    textAlign: TextAlign.center,
+                    style:
+                        AppStyles.withColor(AppStyles.titleMedium, Colors.white)
+                            .copyWith(
+                      shadows: [
+                        const Shadow(
+                          blurRadius: 10.0,
+                          color: Colors.black26,
+                          offset: Offset(2.0, 2.0),
                         ),
-                      ),
+                      ],
                     ),
-                    dimen32,
-                    _buildMicButton(),
-                    dimen32,
-                  ],
-                ),
+                  ),
+                  dimen24,
+                  Container(
+                    width: double.infinity,
+                    constraints: const BoxConstraints(minHeight: 150),
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: AppColors.black20,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: AppColors.white20),
+                    ),
+                    child: Text(
+                      _text,
+                      style: _text == t.interview.yourAnswer
+                          ? AppStyles.withColor(
+                                  AppStyles.bodyLarge, AppColors.white80)
+                              .copyWith(fontStyle: FontStyle.italic)
+                          : AppStyles.withColor(
+                              AppStyles.bodyLarge, AppColors.white80),
+                    ),
+                  ),
+                  dimen32,
+                  _buildMicButton(),
+                  dimen32,
+                ],
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -175,14 +170,10 @@ class _InterviewQuestionWidgetState extends State<InterviewQuestionWidget>
               height: 80,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                gradient: const LinearGradient(
-                  colors: [Colors.purple, Colors.blue],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
+                gradient: AppColors.primaryGradient,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.purple.withOpacity(0.5),
+                    color: AppColors.purple.withOpacity(0.5),
                     blurRadius: 15,
                     spreadRadius: _isListening ? 5 * scale : 0,
                   )
@@ -221,27 +212,14 @@ class _InterviewQuestionWidgetState extends State<InterviewQuestionWidget>
           localeId: LocaleSettings.currentLocale.languageCode,
           onResult: (val) => setState(() {
             _text = val.recognizedWords;
-            // context.read<InterviewBloc>().add(
-            //       InterviewEvent.answerChanged(
-            //         questionId: widget.question.id,
-            //         // answer: _text,
-            //         answer: 'test$widget.question.id',
-            //       ),
-            //     );
-            // if (val.hasConfidenceRating && val.confidence > 0) {
-            //   _confidence = val.confidence;
-            // }
+            context.read<InterviewBloc>().add(
+                  InterviewEvent.answerChanged(
+                    questionId: widget.question.id,
+                    answer: _text,
+                  ),
+                );
           }),
         );
-        if (context.mounted) {
-          context.read<InterviewBloc>().add(
-                InterviewEvent.answerChanged(
-                  questionId: widget.question.id,
-                  // answer: _text,
-                  answer: 'test${widget.question.id}',
-                ),
-              );
-        }
       }
     } else {
       setState(() => _isListening = false);

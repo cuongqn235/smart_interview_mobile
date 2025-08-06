@@ -21,7 +21,6 @@ class InterviewBloc extends Bloc<InterviewEvent, InterviewState> {
     on<_Started>((event, emit) async {
       emit(state.copyWith(interviewStatus: InterviewStatus.generating));
       try {
-        emit(state.copyWith(status: Status.loading()));
         final interviewSession =
             await _interviewSessionRepo.createInterviewSession(
           positionDescription: event.position,
@@ -37,8 +36,6 @@ class InterviewBloc extends Bloc<InterviewEvent, InterviewState> {
         ));
       } catch (e) {
         emit(state.copyWith(status: Status.error(error: e)));
-      } finally {
-        emit(state.copyWith(status: Status.idle()));
       }
     });
 

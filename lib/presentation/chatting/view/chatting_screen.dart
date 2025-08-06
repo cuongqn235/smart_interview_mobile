@@ -1,10 +1,12 @@
 import 'dart:async';
-import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:smart_interview/core/di/injectable.dart';
+import 'package:smart_interview/core/theme/colors.dart';
+import 'package:smart_interview/core/theme/styles.dart';
 import 'package:smart_interview/domain/entities/message_entity.dart';
 import 'package:smart_interview/i18n/strings.g.dart';
 import 'package:smart_interview/presentation/chatting/bloc/chatting_bloc.dart';
@@ -47,15 +49,7 @@ class _ChattingScreenState extends State<ChattingScreen>
         child: Scaffold(
           body: Container(
             decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Color(0xFF1a1a2e),
-                  Color(0xFF16213e),
-                  Color(0xFF0f3460),
-                ],
-              ),
+              gradient: AppColors.backgroundGradient,
             ),
             child: Stack(
               children: [
@@ -78,13 +72,13 @@ class _ChattingScreenState extends State<ChattingScreen>
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [
-                                    Colors.purple.withOpacity(0.3),
-                                    Colors.blue.withOpacity(0.3),
+                                    AppColors.purple.withOpacity(0.3),
+                                    AppColors.blue.withOpacity(0.3),
                                   ],
                                 ),
                                 border: Border(
                                   bottom: BorderSide(
-                                    color: Colors.white.withOpacity(0.1),
+                                    color: AppColors.white10,
                                     width: 1,
                                   ),
                                 ),
@@ -92,54 +86,64 @@ class _ChattingScreenState extends State<ChattingScreen>
                               child: Row(
                                 children: [
                                   // Animated logo
-                                  TweenAnimationBuilder<double>(
-                                    tween: Tween(begin: 0.0, end: 1.0),
-                                    duration: const Duration(seconds: 2),
-                                    builder: (context, value, child) {
-                                      return Transform.rotate(
-                                        angle: value * 2 * math.pi,
-                                        child: Container(
-                                          width: 40,
-                                          height: 40,
-                                          decoration: BoxDecoration(
-                                            gradient: const LinearGradient(
-                                              colors: [
-                                                Colors.purple,
-                                                Colors.blue
-                                              ],
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                          ),
-                                          child: const Icon(
-                                            Icons.auto_awesome,
-                                            color: Colors.white,
-                                            size: 20,
-                                          ),
-                                        ),
-                                      );
-                                    },
+                                  // TweenAnimationBuilder<double>(
+                                  //   tween: Tween(begin: 0.0, end: 1.0),
+                                  //   duration: const Duration(seconds: 2),
+                                  //   builder: (context, value, child) {
+                                  //     return Transform.rotate(
+                                  //       angle: value * 2 * math.pi,
+                                  //       child: Container(
+                                  //         width: 40,
+                                  //         height: 40,
+                                  //         decoration: BoxDecoration(
+                                  //           gradient: AppColors.primaryGradient,
+                                  //           borderRadius:
+                                  //               BorderRadius.circular(20),
+                                  //         ),
+                                  //         child: const Icon(
+                                  //           Icons.auto_awesome,
+                                  //           color: Colors.white,
+                                  //           size: 20,
+                                  //         ),
+                                  //       ),
+                                  //     );
+                                  //   },
+                                  // ),
+                                  InkWell(
+                                    onTap: () => context.pop(),
+                                    child: Container(
+                                      width: 40,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        gradient: AppColors.primaryGradient,
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: const Icon(
+                                        Icons.arrow_back,
+                                        color: Colors.white,
+                                        size: 20,
+                                      ),
+                                    ),
                                   ),
                                   const SizedBox(width: 12),
-                                  const Expanded(
+                                  Expanded(
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           'AI Interview Coach',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                          style: AppStyles.withColor(
+                                              AppStyles.withWeight(
+                                                  AppStyles.titleMedium,
+                                                  FontWeight.bold),
+                                              Colors.white),
                                         ),
                                         Text(
                                           'Chuẩn bị phỏng vấn cùng AI',
-                                          style: TextStyle(
-                                            color: Colors.white70,
-                                            fontSize: 12,
-                                          ),
+                                          style: AppStyles.withColor(
+                                              AppStyles.bodySmall,
+                                              Colors.white70),
                                         ),
                                       ],
                                     ),
@@ -184,10 +188,10 @@ class _ChattingScreenState extends State<ChattingScreen>
                             child: Container(
                               padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(0.2),
+                                color: AppColors.black20,
                                 border: Border(
                                   top: BorderSide(
-                                    color: Colors.white.withOpacity(0.1),
+                                    color: AppColors.white10,
                                     width: 1,
                                   ),
                                 ),
@@ -202,10 +206,10 @@ class _ChattingScreenState extends State<ChattingScreen>
                                                   .bottom +
                                               8),
                                       decoration: BoxDecoration(
-                                        color: Colors.white.withOpacity(0.1),
+                                        color: AppColors.white10,
                                         borderRadius: BorderRadius.circular(25),
                                         border: Border.all(
-                                          color: Colors.white.withOpacity(0.2),
+                                          color: AppColors.white20,
                                         ),
                                       ),
                                       child: TextField(
@@ -215,11 +219,9 @@ class _ChattingScreenState extends State<ChattingScreen>
                                         decoration: InputDecoration(
                                           hintText:
                                               'Nhập vị trí bạn muốn phỏng vấn...',
-                                          hintStyle: TextStyle(
-                                            color:
-                                                Colors.white.withOpacity(0.5),
-                                            fontSize: 14,
-                                          ),
+                                          hintStyle: AppStyles.withColor(
+                                              AppStyles.bodyMedium,
+                                              AppColors.white50),
                                           border: InputBorder.none,
                                           contentPadding:
                                               const EdgeInsets.symmetric(
@@ -238,14 +240,12 @@ class _ChattingScreenState extends State<ChattingScreen>
                                       width: 48,
                                       height: 48,
                                       decoration: BoxDecoration(
-                                        gradient: const LinearGradient(
-                                          colors: [Colors.purple, Colors.blue],
-                                        ),
+                                        gradient: AppColors.primaryGradient,
                                         borderRadius: BorderRadius.circular(24),
                                         boxShadow: [
                                           BoxShadow(
-                                            color:
-                                                Colors.purple.withOpacity(0.3),
+                                            color: AppColors.purple
+                                                .withOpacity(0.3),
                                             blurRadius: 8,
                                             offset: const Offset(0, 2),
                                           ),

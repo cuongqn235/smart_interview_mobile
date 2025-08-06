@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_interview/core/components/dimens_widget.dart';
+import 'package:smart_interview/core/theme/colors.dart';
+import 'package:smart_interview/core/theme/styles.dart';
 import 'package:smart_interview/domain/entities/message_entity.dart';
 
 class MessageBubble extends StatefulWidget {
@@ -46,9 +48,7 @@ class _MessageBubbleState extends State<MessageBubble>
                       width: 32,
                       height: 32,
                       decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [Colors.purple, Colors.blue],
-                        ),
+                        gradient: AppColors.primaryGradient,
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: const Icon(
@@ -69,21 +69,17 @@ class _MessageBubbleState extends State<MessageBubble>
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 12),
                       decoration: BoxDecoration(
-                        gradient: isUser
-                            ? const LinearGradient(
-                                colors: [Colors.green, Colors.teal],
-                              )
-                            : null,
-                        color: isUser ? null : Colors.white.withOpacity(0.1),
+                        gradient: isUser ? AppColors.secondaryGradient : null,
+                        color: isUser ? null : AppColors.white10,
                         borderRadius: BorderRadius.circular(20),
                         border: isUser
                             ? null
                             : Border.all(
-                                color: Colors.white.withOpacity(0.2),
+                                color: AppColors.white20,
                               ),
                         boxShadow: [
                           BoxShadow(
-                            color: (isUser ? Colors.green : Colors.purple)
+                            color: (isUser ? AppColors.green : AppColors.purple)
                                 .withOpacity(0.2),
                             blurRadius: 8,
                             offset: const Offset(0, 2),
@@ -94,11 +90,8 @@ class _MessageBubbleState extends State<MessageBubble>
                         children: [
                           Text(
                             widget.message.content,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                              height: 1.4,
-                            ),
+                            style: AppStyles.withColor(
+                                AppStyles.bodyMedium, Colors.white),
                           ),
                           if (widget.message is MessageEntityEnd)
                             GestureDetector(
@@ -107,7 +100,7 @@ class _MessageBubbleState extends State<MessageBubble>
                                   'position': widget.message.content,
                                 }, queryParameters: {
                                   'language': widget.message.mapOrNull(
-                                    end: (end) => end.language,
+                                    end: (end) => end.languageCode,
                                   ),
                                 });
                               },
@@ -117,13 +110,11 @@ class _MessageBubbleState extends State<MessageBubble>
                                 height: 48,
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
-                                  gradient: const LinearGradient(
-                                    colors: [Colors.purple, Colors.blue],
-                                  ),
+                                  gradient: AppColors.primaryGradient,
                                   borderRadius: BorderRadius.circular(24),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.purple.withOpacity(0.3),
+                                      color: AppColors.purple.withOpacity(0.3),
                                       blurRadius: 8,
                                       offset: const Offset(0, 2),
                                     ),
@@ -151,9 +142,7 @@ class _MessageBubbleState extends State<MessageBubble>
                       width: 32,
                       height: 32,
                       decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [Colors.green, Colors.teal],
-                        ),
+                        gradient: AppColors.secondaryGradient,
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: const Icon(

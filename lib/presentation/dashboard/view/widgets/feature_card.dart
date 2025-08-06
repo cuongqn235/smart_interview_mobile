@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:smart_interview/core/theme/colors.dart';
+import 'package:smart_interview/core/theme/styles.dart';
 import 'package:smart_interview/presentation/dashboard/models/feature.dart';
 
 class FeatureCard extends StatefulWidget {
@@ -33,7 +35,7 @@ class _FeatureCardState extends State<FeatureCard>
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.05),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(8),
                   border: Border.all(
                     color: Colors.white.withOpacity(0.1),
                   ),
@@ -60,27 +62,21 @@ class _FeatureCardState extends State<FeatureCard>
                         children: [
                           Text(
                             widget.feature.title,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            ),
+                            style: AppStyles.withColor(
+                                AppStyles.labelLarge, Colors.white),
                           ),
                           const SizedBox(height: 4),
                           Text(
                             widget.feature.description,
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.7),
-                              fontSize: 12,
-                              height: 1.3,
-                            ),
+                            style: AppStyles.withColor(
+                                AppStyles.bodySmall, AppColors.white70),
                           ),
                         ],
                       ),
                     ),
                     Icon(
                       Icons.chevron_right,
-                      color: Colors.white.withOpacity(0.4),
+                      color: AppColors.white40,
                       size: 16,
                     ),
                   ],

@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_interview/core/config/app_router.dart';
+import 'package:smart_interview/core/theme/colors.dart';
+import 'package:smart_interview/core/theme/styles.dart';
 import 'package:smart_interview/i18n/strings.g.dart';
 import 'package:smart_interview/presentation/auth/bloc/auth_bloc.dart';
 
@@ -32,11 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Scaffold(
         body: Container(
           decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [Color(0xFF6D5FFF), Color(0xFF46C2CB)],
-            ),
+            gradient: AppColors.loginGradient,
           ),
           child: SafeArea(
             child: Center(
@@ -188,7 +186,7 @@ class _SocialLoginButton extends StatelessWidget {
       child: ElevatedButton.icon(
         icon: icon,
         label: Text(label,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            style: AppStyles.withWeight(AppStyles.labelLarge, FontWeight.bold)),
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.symmetric(vertical: 18),

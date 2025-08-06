@@ -9,7 +9,7 @@ sealed class MessageEntity with _$MessageEntity {
     required MessageSender sender,
     required DateTime timestamp,
     required String position,
-    required String language,
+    required String languageCode,
   }) = MessageEntityEnd;
 
   const factory MessageEntity.message({
